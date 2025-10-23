@@ -1,70 +1,140 @@
-body {
+/* Базовые стили */
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    font-size: 16px;
-    color: var(--tg-theme-text-color);
-    background: var(--tg-theme-bg-color);
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 390px;
-    margin: 0 auto;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
     padding: 20px;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--tg-theme-text-color);
+.container {
+    max-width: 420px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.inner {
+/* Шапка */
+.header {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Сетка жанров */
+.genres-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(3, 200px);
     gap: 15px;
+    padding: 25px;
 }
 
-.img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.item {
-    text-align: center;
-    padding: 15px;
-    background: var(--tg-theme-secondary-bg-color);
+.genre-card {
+    background: #f8f9fa;
     border-radius: 15px;
-    transition: transform 0.2s ease;
+    padding: 20px 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
-.item:hover {
+.genre-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-color: #3498db;
+    background: white;
 }
 
-.btn {
-    display: inline-block;
-    padding: 8px 16px;
-    border: none;
-    background: #4CAF50;
-    border-radius: 8px;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 12px;
-    transition: background 0.2s linear;
-    cursor: pointer;
+.genre-icon {
+    font-size: 2.5em;
+    margin-bottom: 12px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Цвета для иконок жанров */
+.genre-icon.comedy { color: #f39c12; }
+.genre-icon.action { color: #e74c3c; }
+.genre-icon.drama { color: #9b59b6; }
+.genre-icon.fantasy { color: #3498db; }
+.genre-icon.romance { color: #e91e63; }
+.genre-icon.horror { color: #2c3e50; }
+
+.genre-btn {
     width: 100%;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.btn:hover {
-    background: #45a049;
+.genre-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f639b);
+    transform: scale(1.05);
 }
 
-.usercard {
+.genre-btn:active {
+    transform: scale(0.95);
+}
+
+/* Подвал */
+.footer {
+    background: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    border-top: 1px solid #bdc3c7;
+}
+
+.user-info {
     display: none;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .genres-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px;
+    }
+    
+    .title {
+        font-size: 1.8em;
+    }
+    
+    .genre-card {
+        padding: 15px 10px;
+    }
 }
