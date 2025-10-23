@@ -39,9 +39,25 @@
                 <button class="genre-btn" id="btn6">Ужасы</button>
             </div>
         </div>
+
+        <!-- Чат с AI помощником -->
+        <div class="chat-section">
+            <h3 class="chat-title">AI Помощник по выбору фильма</h3>
+            <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="message bot-message">
+                        Привет! Я помогу вам выбрать фильм. Спросите меня о фильмах, жанрах или попросите рекомендации!
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Спросите о фильмах...">
+                    <button onclick="sendMessage()">Отправить</button>
+                </div>
+            </div>
+        </div>
         
         <footer class="footer">
-            <p>Нажмите на кнопку выбора жанра, затем подтвердите выбор</p>
+            <p>Выберите жанр или спросите AI помощника о фильмах</p>
         </footer>
     </div>
     
