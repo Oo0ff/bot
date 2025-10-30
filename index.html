@@ -4,39 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Кинотеатр - Выбор фильма</title>
+    <title>Кинотеатр - Покупка билетов</title>
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <h1 class="title">Кинотеатр</h1>
-            <p class="subtitle">Выберите жанр фильма</p>
-        </header>
-        
-        <div class="genres-grid">
-            <div class="genre-card">
-                <div class="genre-icon comedy">😊</div>
-                <button class="genre-btn" id="btn1">Комедии</button>
+        <!-- Экран выбора жанра -->
+        <div id="genreScreen" class="screen active">
+            <header class="header">
+                <h1 class="title">Кинотеатр</h1>
+                <p class="subtitle">Выберите жанр фильма</p>
+            </header>
+            
+            <div class="genres-grid">
+                <div class="genre-card">
+                    <div class="genre-icon comedy">😊</div>
+                    <button class="genre-btn" data-genre="comedy">Комедии</button>
+                </div>
+                <div class="genre-card">
+                    <div class="genre-icon action">💥</div>
+                    <button class="genre-btn" data-genre="action">Боевики</button>
+                </div>
+                <div class="genre-card">
+                    <div class="genre-icon drama">🎭</div>
+                    <button class="genre-btn" data-genre="drama">Драмы</button>
+                </div>
+                <div class="genre-card">
+                    <div class="genre-icon fantasy">🚀</div>
+                    <button class="genre-btn" data-genre="fantasy">Фантастика</button>
+                </div>
+                <div class="genre-card">
+                    <div class="genre-icon romance">❤️</div>
+                    <button class="genre-btn" data-genre="romance">Мелодрамы</button>
+                </div>
+                <div class="genre-card">
+                    <div class="genre-icon horror">👻</div>
+                    <button class="genre-btn" data-genre="horror">Ужасы</button>
+                </div>
             </div>
-            <div class="genre-card">
-                <div class="genre-icon action">💥</div>
-                <button class="genre-btn" id="btn2">Боевики</button>
+        </div>
+
+        <!-- Экран выбора фильма -->
+        <div id="movieScreen" class="screen">
+            <header class="header">
+                <button class="back-btn" onclick="showScreen('genreScreen')">← Назад</button>
+                <h2 class="screen-title" id="movieScreenTitle">Выбор фильма</h2>
+            </header>
+            
+            <div class="movies-list" id="moviesList">
+                <!-- Фильмы будут загружаться здесь -->
             </div>
-            <div class="genre-card">
-                <div class="genre-icon drama">🎭</div>
-                <button class="genre-btn" id="btn3">Драмы</button>
+        </div>
+
+        <!-- Экран выбора времени -->
+        <div id="timeScreen" class="screen">
+            <header class="header">
+                <button class="back-btn" onclick="showScreen('movieScreen')">← Назад</button>
+                <h2 class="screen-title" id="timeScreenTitle">Выбор времени</h2>
+            </header>
+            
+            <div class="selected-movie" id="selectedMovieInfo">
+                <!-- Информация о выбранном фильме -->
             </div>
-            <div class="genre-card">
-                <div class="genre-icon fantasy">🚀</div>
-                <button class="genre-btn" id="btn4">Фантастика</button>
+            
+            <div class="times-grid" id="timesList">
+                <!-- Время сеансов будет здесь -->
             </div>
-            <div class="genre-card">
-                <div class="genre-icon romance">❤️</div>
-                <button class="genre-btn" id="btn5">Мелодрамы</button>
+        </div>
+
+        <!-- Экран выбора мест -->
+        <div id="seatsScreen" class="screen">
+            <header class="header">
+                <button class="back-btn" onclick="showScreen('timeScreen')">← Назад</button>
+                <h2 class="screen-title">Выбор мест</h2>
+            </header>
+            
+            <div class="selected-session" id="selectedSessionInfo">
+                <!-- Информация о выбранном сеансе -->
             </div>
-            <div class="genre-card">
-                <div class="genre-icon horror">👻</div>
-                <button class="genre-btn" id="btn6">Ужасы</button>
+            
+            <div class="cinema-hall">
+                <div class="screen-indicator">ЭКРАН</div>
+                <div class="seats-grid" id="seatsGrid">
+                    <!-- Места будут генерироваться здесь -->
+                </div>
+            </div>
+            
+            <div class="selected-seats">
+                <h3>Выбранные места: <span id="selectedSeatsCount">0</span></h3>
+                <div id="selectedSeatsList"></div>
+                <div class="total-price">
+                    Общая стоимость: <span id="totalPrice">0</span> руб.
+                </div>
+                <button class="buy-btn" onclick="confirmPurchase()">Купить билеты</button>
+            </div>
+        </div>
+
+        <!-- Экран подтверждения -->
+        <div id="confirmationScreen" class="screen">
+            <header class="header">
+                <h1 class="title">✅ Билеты куплены!</h1>
+            </header>
+            
+            <div class="confirmation-info">
+                <div class="ticket" id="ticketInfo">
+                    <!-- Информация о билетах -->
+                </div>
+                <button class="new-order-btn" onclick="startNewOrder()">Новый заказ</button>
             </div>
         </div>
 
@@ -55,13 +128,7 @@
                 </div>
             </div>
         </div>
-        
-        <footer class="footer">
-            <p>Выберите жанр или спросите AI помощника о фильмах</p>
-        </footer>
     </div>
-    
-    <div class="user-info" id="userinfo"></div>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="app.js"></script>
