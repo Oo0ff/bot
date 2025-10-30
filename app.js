@@ -415,7 +415,7 @@ function showScreen(screenId) {
 
 // Функции для чата с AI (остаются без изменений)
 async function getDeepSeekResponse(message) {
-    const apiKey = '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';
+    const apiKey = '111sk-or-v1-56ebf6b0470c0a45daa488b4177b984ccf7816febec9778635d568b327b9b231';
     const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
     
     const requestData = {
