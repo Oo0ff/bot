@@ -16,47 +16,61 @@ const btn4 = document.getElementById("btn4");
 const btn5 = document.getElementById("btn5");
 const btn6 = document.getElementById("btn6");
 
+// Получение всех карточек жанров
+const genreCards = document.querySelectorAll('.genre-card');
+
 // Обработчики для кнопок жанров
 btn1.addEventListener("click", function() {
-    toggleMainButton("comedy", "Показать комедии");
+    selectGenre("comedy", "Показать комедии", this);
 });
 
 btn2.addEventListener("click", function() {
-    toggleMainButton("action", "Показать боевики");
+    selectGenre("action", "Показать боевики", this);
 });
 
 btn3.addEventListener("click", function() {
-    toggleMainButton("drama", "Показать драмы");
+    selectGenre("drama", "Показать драмы", this);
 });
 
 btn4.addEventListener("click", function() {
-    toggleMainButton("fantasy", "Показать фантастику");
+    selectGenre("fantasy", "Показать фантастику", this);
 });
 
 btn5.addEventListener("click", function() {
-    toggleMainButton("romance", "Показать мелодрамы");
+    selectGenre("romance", "Показать мелодрамы", this);
 });
 
 btn6.addEventListener("click", function() {
-    toggleMainButton("horror", "Показать ужасы");
+    selectGenre("horror", "Показать ужасы", this);
 });
 
-// Функция переключения основной кнопки
-function toggleMainButton(genre, text) {
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-        selectedGenre = "";
-    } else {
-        tg.MainButton.setText(text);
-        selectedGenre = genre;
-        tg.MainButton.show();
-    }
+// Функция выбора жанра
+function selectGenre(genre, text, button) {
+    // Снимаем выделение со всех карточек
+    genreCards.forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    // Добавляем выделение текущей карточке
+    const genreCard = button.closest('.genre-card');
+    genreCard.classList.add('active');
+    
+    // Устанавливаем выбранный жанр
+    selectedGenre = genre;
+    tg.MainButton.setText(text);
+    tg.MainButton.show();
 }
 
 // Обработка нажатия основной кнопки
 Telegram.WebApp.onEvent("mainButtonClicked", function() {
     if (selectedGenre) {
         tg.sendData(selectedGenre);
+        // Сбрасываем выделение после отправки
+        genreCards.forEach(card => {
+            card.classList.remove('active');
+        });
+        selectedGenre = "";
+        tg.MainButton.hide();
     }
 });
 
@@ -82,7 +96,6 @@ async function getDeepSeekResponse(message) {
     };
     
     try {
-        showTypingIndicator();
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -94,8 +107,6 @@ async function getDeepSeekResponse(message) {
             body: JSON.stringify(requestData)
         });
         
-        removeTypingIndicator();
-        
         if (response.ok) {
             const data = await response.json();
             return data.choices[0].message.content;
@@ -103,7 +114,6 @@ async function getDeepSeekResponse(message) {
             return 'Извините, в данный момент не могу подключиться к AI. Попробуйте позже.';
         }
     } catch (error) {
-        removeTypingIndicator();
         return 'Ошибка соединения. Проверьте интернет и попробуйте еще раз.';
     }
 }
@@ -112,8 +122,13 @@ async function getDeepSeekResponse(message) {
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const chatMessages = document.getElementById('chatMessages');
+    const sendButton = document.querySelector('.chat-input button');
     
     if (userInput.value.trim() === '') return;
+    
+    // Блокируем кнопку отправки
+    sendButton.disabled = true;
+    sendButton.textContent = 'Отправка...';
     
     // Показываем сообщение пользователя
     const userMessage = document.createElement('div');
@@ -124,13 +139,23 @@ async function sendMessage() {
     const userText = userInput.value;
     userInput.value = '';
     
+    // Показываем индикатор набора
+    showTypingIndicator();
+    
     // Получаем ответ от AI
     const aiResponse = await getDeepSeekResponse(userText);
+    
+    // Убираем индикатор набора
+    removeTypingIndicator();
     
     const botMessage = document.createElement('div');
     botMessage.className = 'message bot-message';
     botMessage.textContent = aiResponse;
     chatMessages.appendChild(botMessage);
+    
+    // Разблокируем кнопку отправки
+    sendButton.disabled = false;
+    sendButton.textContent = 'Отправить';
     
     // Прокручиваем вниз
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -140,11 +165,18 @@ async function sendMessage() {
 function showTypingIndicator() {
     const chatMessages = document.getElementById('chatMessages');
     const typingIndicator = document.createElement('div');
-    typingIndicator.className = 'message bot-message';
+    typingIndicator.className = 'message bot-message typing-indicator';
     typingIndicator.id = 'typingIndicator';
-    typingIndicator.textContent = 'Помощник печатает...';
-    typingIndicator.style.fontStyle = 'italic';
-    typingIndicator.style.opacity = '0.7';
+    
+    typingIndicator.innerHTML = `
+        Помощник печатает
+        <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    `;
+    
     chatMessages.appendChild(typingIndicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
