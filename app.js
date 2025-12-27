@@ -261,6 +261,8 @@ function showProducts(category) {
     products.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+        productCard.setAttribute('data-product-id', product.id);
+        
         productCard.innerHTML = `
             <div class="product-image">
                 <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
@@ -274,9 +276,25 @@ function showProducts(category) {
                     <span class="product-rating">★ ${product.rating}</span>
                 </div>
                 <div class="product-sizes">Размеры: ${product.sizes.join(', ')}</div>
-                <button class="product-btn" onclick="selectProduct(${product.id})">Подробнее</button>
+                <button class="product-btn">Подробнее</button>
             </div>
         `;
+        
+        // Добавляем обработчик клика на карточку
+        const productBtn = productCard.querySelector('.product-btn');
+        productBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            selectProduct(product.id);
+        });
+        
+        // Также делаем кликабельной всю карточку
+        productCard.addEventListener('click', function(e) {
+            // Проверяем, что клик не по кнопке
+            if (!e.target.closest('.product-btn')) {
+                selectProduct(product.id);
+            }
+        });
+        
         productsList.appendChild(productCard);
     });
 }
@@ -288,6 +306,8 @@ function formatPrice(price) {
 
 // Выбор товара
 function selectProduct(productId) {
+    console.log('Выбор товара с ID:', productId);
+    
     // Найти товар по ID
     let selectedProduct = null;
     for (const category in PRODUCTS_DATA) {
@@ -302,6 +322,9 @@ function selectProduct(productId) {
         currentOrder.product = selectedProduct;
         showProductDetails(selectedProduct);
         showScreen('detailScreen');
+    } else {
+        console.error('Товар не найден');
+        showNotification('Товар не найден', 'error');
     }
 }
 
@@ -340,7 +363,8 @@ function showProductDetails(product) {
         const sizeButton = document.createElement('button');
         sizeButton.className = 'size-btn';
         sizeButton.textContent = size;
-        sizeButton.onclick = function() {
+        sizeButton.type = 'button';
+        sizeButton.addEventListener('click', function() {
             selectSize(size);
             // Сброс выделения у всех кнопок
             document.querySelectorAll('.size-btn').forEach(btn => {
@@ -348,13 +372,14 @@ function showProductDetails(product) {
             });
             // Выделение текущей кнопки
             this.classList.add('selected');
-        };
+        });
         sizesGrid.appendChild(sizeButton);
     });
     
     // Обновление информации о выборе
     document.getElementById('selectedProductName').textContent = product.title;
     document.getElementById('selectedPrice').textContent = formatPrice(product.price) + ' руб.';
+    document.getElementById('selectedSize').textContent = 'Не выбран';
 }
 
 // Выбор размера
@@ -465,18 +490,39 @@ function updateCartDisplay() {
                     </div>
                 </div>
                 <div class="cart-item-actions">
-                    <button class="quantity-btn minus" onclick="changeQuantity(${index}, -1)">−</button>
+                    <button class="quantity-btn minus" type="button">−</button>
                     <span class="quantity-display">${item.quantity}</span>
-                    <button class="quantity-btn plus" onclick="changeQuantity(${index}, 1)">+</button>
+                    <button class="quantity-btn plus" type="button">+</button>
                     <div class="item-total">${formatPrice(item.price * item.quantity)} руб.</div>
                 </div>
             </div>
-            <button class="remove-item-btn" onclick="removeFromCart(${index})">
+            <button class="remove-item-btn" type="button">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </button>
         `;
+        
+        // Добавляем обработчики для кнопок количества
+        const minusBtn = cartItem.querySelector('.minus');
+        const plusBtn = cartItem.querySelector('.plus');
+        const removeBtn = cartItem.querySelector('.remove-item-btn');
+        
+        minusBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            changeQuantity(index, -1);
+        });
+        
+        plusBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            changeQuantity(index, 1);
+        });
+        
+        removeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            removeFromCart(index);
+        });
+        
         cartItems.appendChild(cartItem);
         
         total += item.price * item.quantity;
@@ -631,6 +677,9 @@ function showScreen(screenId) {
     if (isChatOpen) {
         toggleChat();
     }
+    
+    // Прокрутка вверх
+    window.scrollTo(0, 0);
 }
 
 // Генерация ID заказа
@@ -799,6 +848,10 @@ function toggleChat() {
                 <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
             </svg>
         `;
+        // Фокус на поле ввода
+        setTimeout(() => {
+            document.getElementById('userInput').focus();
+        }, 100);
     } else {
         chatWindow.style.display = 'none';
         chatToggle.innerHTML = `
@@ -808,3 +861,28 @@ function toggleChat() {
         `;
     }
 }
+
+// Глобальные функции для использования в HTML
+window.selectCategory = selectCategory;
+window.selectProduct = selectProduct;
+window.showScreen = showScreen;
+window.addToCart = addToCart;
+window.buyNow = buyNow;
+window.checkout = checkout;
+window.startNewOrder = startNewOrder;
+window.showStoreInfo = showStoreInfo;
+window.changeQuantity = changeQuantity;
+window.removeFromCart = removeFromCart;
+window.sendMessage = sendMessage;
+window.toggleChat = toggleChat;
+
+// Функция для навигации из корзины
+window.goBackFromCart = function() {
+    if (currentOrder.product) {
+        showScreen('detailScreen');
+    } else if (currentOrder.category) {
+        showScreen('productScreen');
+    } else {
+        showScreen('categoryScreen');
+    }
+};
