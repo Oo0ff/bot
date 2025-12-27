@@ -6,399 +6,496 @@ tg.expand();
 tg.MainButton.textColor = "#FFFFFF";
 tg.MainButton.color = "#2c3e50";
 
-// Данные о фильмах с временем и ценами
-const MOVIES_DATA = {
-    comedy: [
+// Данные о товарах
+const PRODUCTS_DATA = {
+    mens: [
         {
             id: 1,
-            title: "Маппеты",
-            description: "Смешные приключения известных кукол",
-            rating: "7.8/10",
-            sessions: ["12:30", "16:45", "19:20"],
-            price: 450,
-            vipPrice: 650
+            title: "Классический костюм",
+            description: "Шерстяной костюм для офиса. Итальянская ткань.",
+            price: 12500,
+            sizes: ["S", "M", "L", "XL"],
+            season: "Всесезонный",
+            category: "Деловая одежда",
+            imageUrl: "https://images.unsplash.com/photo-1594938350607-1a53b5d16a3b?w=400",
+            colors: ["Черный", "Серый", "Синий"],
+            inStock: true,
+            rating: 4.8
         },
         {
             id: 2,
-            title: "Славные парни",
-            description: "Неудачливые грабители в комичных ситуациях",
-            rating: "7.9/10",
-            sessions: ["14:15", "18:00", "21:00"],
-            price: 450,
-            vipPrice: 650
+            title: "Джинсы Slim Fit",
+            description: "Узкие джинсы премиум-качества",
+            price: 4500,
+            sizes: ["28", "30", "32", "34", "36"],
+            season: "Демисезон",
+            category: "Повседневная одежда",
+            imageUrl: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400",
+            colors: ["Синий", "Черный"],
+            inStock: true,
+            rating: 4.6
         }
     ],
-    action: [
+    womens: [
         {
             id: 3,
-            title: "Форсаж 10",
-            description: "Взрывные гонки и невероятные трюки",
-            rating: "8.1/10",
-            sessions: ["14:00", "18:30", "21:15"],
-            price: 500,
-            vipPrice: 700
+            title: "Платье коктейльное",
+            description: "Элегантное вечернее платье",
+            price: 8900,
+            sizes: ["XS", "S", "M", "L"],
+            season: "Вечерняя коллекция",
+            category: "Вечерняя одежда",
+            imageUrl: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+            colors: ["Красный", "Черный", "Белый"],
+            inStock: true,
+            rating: 4.9
         },
         {
             id: 4,
-            title: "Джон Уик 4",
-            description: "Легенда киллеров в эпической битве",
-            rating: "8.3/10",
-            sessions: ["15:20", "19:45", "22:30"],
-            price: 500,
-            vipPrice: 700
+            title: "Трикотажный свитер",
+            description: "Мягкий свитер из кашемира",
+            price: 6200,
+            sizes: ["S", "M", "L"],
+            season: "Зима",
+            category: "Верхняя одежда",
+            imageUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400",
+            colors: ["Бежевый", "Серый", "Бордовый"],
+            inStock: true,
+            rating: 4.7
         }
     ],
-    drama: [
+    winter: [
         {
             id: 5,
-            title: "Оппенгеймер",
-            description: "История создателя атомной бомбы",
-            rating: "8.8/10",
-            sessions: ["15:00", "19:15", "22:00"],
-            price: 480,
-            vipPrice: 680
+            title: "Пуховик зимний",
+            description: "Теплая зимняя куртка с натуральным пухом",
+            price: 14500,
+            sizes: ["S", "M", "L", "XL", "XXL"],
+            season: "Зима",
+            category: "Верхняя одежда",
+            imageUrl: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400",
+            colors: ["Черный", "Синий", "Красный"],
+            inStock: true,
+            rating: 4.8
         },
         {
             id: 6,
-            title: "Назад в будущее",
-            description: "Культовая история о путешествиях во времени",
-            rating: "8.5/10",
-            sessions: ["12:00", "16:30", "19:45"],
-            price: 400,
-            vipPrice: 600
+            title: "Термобелье набор",
+            description: "Комплект термобелья для активного отдыха",
+            price: 3200,
+            sizes: ["S", "M", "L", "XL"],
+            season: "Зима",
+            category: "Спортивная одежда",
+            imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+            colors: ["Черный", "Серый"],
+            inStock: true,
+            rating: 4.5
         }
     ],
-    fantasy: [
+    summer: [
         {
             id: 7,
-            title: "Дюна: Часть вторая",
-            description: "Эпическая фантастика о пустынной планете",
-            rating: "8.7/10",
-            sessions: ["14:45", "18:30", "21:45"],
-            price: 520,
-            vipPrice: 720
+            title: "Футболка хлопковая",
+            description: "Дышащая футболка из 100% хлопка",
+            price: 1900,
+            sizes: ["XS", "S", "M", "L", "XL"],
+            season: "Лето",
+            category: "Повседневная одежда",
+            imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",
+            colors: ["Белый", "Черный", "Синий", "Зеленый"],
+            inStock: true,
+            rating: 4.4
         },
         {
             id: 8,
-            title: "Интерстеллар",
-            description: "Путешествие через червоточину",
-            rating: "8.6/10",
-            sessions: ["16:00", "19:45", "22:30"],
-            price: 480,
-            vipPrice: 680
+            title: "Шорты льняные",
+            description: "Легкие шорты для жаркой погоды",
+            price: 2800,
+            sizes: ["S", "M", "L", "XL"],
+            season: "Лето",
+            category: "Повседневная одежда",
+            imageUrl: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400",
+            colors: ["Бежевый", "Белый", "Синий"],
+            inStock: true,
+            rating: 4.3
         }
     ],
-    romance: [
+    accessories: [
         {
             id: 9,
-            title: "Титаник",
-            description: "Легендарная история любви",
-            rating: "8.9/10",
-            sessions: ["13:30", "17:15", "20:00"],
-            price: 460,
-            vipPrice: 660
+            title: "Кожаный ремень",
+            description: "Классический кожаный ремень",
+            price: 2400,
+            sizes: ["S", "M", "L"],
+            season: "Всесезонный",
+            category: "Аксессуары",
+            imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400",
+            colors: ["Коричневый", "Черный"],
+            inStock: true,
+            rating: 4.6
         },
         {
             id: 10,
-            title: "Запах женщины",
-            description: "История неожиданной дружбы",
-            rating: "8.4/10",
-            sessions: ["15:45", "19:30"],
-            price: 420,
-            vipPrice: 620
-        }
-    ],
-    horror: [
-        {
-            id: 11,
-            title: "Пила 10",
-            description: "Новые смертельные ловушки",
-            rating: "7.2/10",
-            sessions: ["20:00", "22:45"],
-            price: 440,
-            vipPrice: 640
-        },
-        {
-            id: 12,
-            title: "Заклятие 4",
-            description: "Продолжение страшной истории",
-            rating: "7.4/10",
-            sessions: ["19:30", "22:15"],
-            price: 440,
-            vipPrice: 640
+            title: "Шерстяной шарф",
+            description: "Теплый шарф из натуральной шерсти",
+            price: 1800,
+            sizes: ["Один размер"],
+            season: "Зима",
+            category: "Аксессуары",
+            imageUrl: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=400",
+            colors: ["Серый", "Бордовый", "Синий"],
+            inStock: true,
+            rating: 4.7
         }
     ]
 };
 
+// Информация о магазине
+const STORE_INFO = {
+    name: "FashionStore",
+    address: "г. Москва, ул. Тверская, д. 15",
+    phone: "+7 (495) 123-45-67",
+    email: "info@fashionstore.ru",
+    hours: "Ежедневно 10:00 - 22:00",
+    mapUrl: "https://yandex.ru/maps/?text=Москва, Тверская, 15",
+    deliveryUrl: "https://fashionstore.ru/delivery",
+    returnUrl: "https://fashionstore.ru/returns"
+};
+
 // Текущее состояние заказа
 let currentOrder = {
-    genre: null,
-    movie: null,
-    time: null,
-    seats: [],
+    category: null,
+    product: null,
+    selectedSize: null,
+    cart: [],
     totalPrice: 0
 };
 
-// Заранее занятые места (для демонстрации)
-const OCCUPIED_SEATS = ['A3', 'B5', 'C2', 'D4', 'E6', 'F1', 'G7'];
-
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
-    initializeGenreButtons();
+    initializeCategoryButtons();
     document.getElementById('userInput').focus();
+    updateCartDisplay();
 });
 
-// Инициализация кнопок жанров
-function initializeGenreButtons() {
-    const genreButtons = document.querySelectorAll('.genre-btn');
-    genreButtons.forEach(button => {
+// Инициализация кнопок категорий
+function initializeCategoryButtons() {
+    const categoryButtons = document.querySelectorAll('.category-btn[data-category]');
+    categoryButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const genre = this.getAttribute('data-genre');
-            selectGenre(genre);
+            const category = this.getAttribute('data-category');
+            selectCategory(category);
         });
     });
 }
 
-// Выбор жанра
-function selectGenre(genre) {
-    currentOrder.genre = genre;
-    showMovies(genre);
-    showScreen('movieScreen');
+// Выбор категории
+function selectCategory(category) {
+    currentOrder.category = category;
+    showProducts(category);
+    showScreen('productScreen');
 }
 
-// Показать фильмы выбранного жанра
-function showMovies(genre) {
-    const moviesList = document.getElementById('moviesList');
-    const screenTitle = document.getElementById('movieScreenTitle');
+// Показать товары выбранной категории
+function showProducts(category) {
+    const productsList = document.getElementById('productsList');
+    const screenTitle = document.getElementById('productScreenTitle');
     
     // Установка заголовка
-    const genreNames = {
-        comedy: 'Комедии',
-        action: 'Боевики',
-        drama: 'Драмы',
-        fantasy: 'Фантастика',
-        romance: 'Мелодрамы',
-        horror: 'Ужасы'
+    const categoryNames = {
+        mens: '👔 Мужская одежда',
+        womens: '👗 Женская одежда',
+        winter: '❄️ Зимняя коллекция',
+        summer: '☀️ Летняя коллекция',
+        accessories: '🧣 Аксессуары'
     };
     
-    screenTitle.textContent = genreNames[genre];
+    screenTitle.textContent = categoryNames[category];
     
     // Очистка списка
-    moviesList.innerHTML = '';
+    productsList.innerHTML = '';
     
-    // Добавление фильмов
-    const movies = MOVIES_DATA[genre];
-    movies.forEach(movie => {
-        const movieCard = document.createElement('div');
-        movieCard.className = 'movie-card';
-        movieCard.innerHTML = `
-            <div class="movie-title">${movie.title}</div>
-            <div class="movie-description">${movie.description}</div>
-            <div class="movie-rating">⭐ ${movie.rating}</div>
-            <div class="movie-sessions">Сеансы: ${movie.sessions.join(', ')}</div>
-            <button class="movie-btn" onclick="selectMovie(${movie.id})">Выбрать</button>
+    // Добавление товаров
+    const products = PRODUCTS_DATA[category];
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <div class="product-image">
+                <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x400?text=FashionStore'">
+            </div>
+            <div class="product-info">
+                <div class="product-title">${product.title}</div>
+                <div class="product-description">${product.description}</div>
+                <div class="product-details">
+                    <span class="product-price">${product.price} руб.</span>
+                    <span class="product-rating">⭐ ${product.rating}</span>
+                </div>
+                <div class="product-sizes">Размеры: ${product.sizes.join(', ')}</div>
+                <button class="product-btn" onclick="selectProduct(${product.id})">Выбрать</button>
+            </div>
         `;
-        moviesList.appendChild(movieCard);
+        productsList.appendChild(productCard);
     });
 }
 
-// Выбор фильма
-function selectMovie(movieId) {
-    // Найти фильм по ID
-    let selectedMovie = null;
-    for (const genre in MOVIES_DATA) {
-        const movie = MOVIES_DATA[genre].find(m => m.id === movieId);
-        if (movie) {
-            selectedMovie = movie;
+// Выбор товара
+function selectProduct(productId) {
+    // Найти товар по ID
+    let selectedProduct = null;
+    for (const category in PRODUCTS_DATA) {
+        const product = PRODUCTS_DATA[category].find(p => p.id === productId);
+        if (product) {
+            selectedProduct = product;
             break;
         }
     }
     
-    if (selectedMovie) {
-        currentOrder.movie = selectedMovie;
-        showTimes(selectedMovie);
-        showScreen('timeScreen');
+    if (selectedProduct) {
+        currentOrder.product = selectedProduct;
+        showProductDetails(selectedProduct);
+        showScreen('detailScreen');
     }
 }
 
-// Показать время сеансов
-function showTimes(movie) {
-    const selectedMovieInfo = document.getElementById('selectedMovieInfo');
-    const timesList = document.getElementById('timesList');
-    const screenTitle = document.getElementById('timeScreenTitle');
+// Показать детали товара
+function showProductDetails(product) {
+    const productDetail = document.getElementById('productDetail');
+    const sizesGrid = document.getElementById('sizesGrid');
     
-    // Обновление информации о фильме
-    screenTitle.textContent = movie.title;
-    selectedMovieInfo.innerHTML = `
-        <strong>${movie.title}</strong><br>
-        ${movie.description}<br>
-        ⭐ ${movie.rating}
+    // Обновление информации о товаре
+    productDetail.innerHTML = `
+        <div class="product-image-large">
+            <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x400?text=FashionStore'">
+        </div>
+        <div class="product-info-large">
+            <h3>${product.title}</h3>
+            <p class="product-description-large">${product.description}</p>
+            <div class="product-meta">
+                <div class="meta-item"><strong>Цена:</strong> ${product.price} руб.</div>
+                <div class="meta-item"><strong>Сезон:</strong> ${product.season}</div>
+                <div class="meta-item"><strong>Категория:</strong> ${product.category}</div>
+                <div class="meta-item"><strong>Цвета:</strong> ${product.colors.join(', ')}</div>
+                <div class="meta-item"><strong>Рейтинг:</strong> ⭐ ${product.rating}</div>
+                <div class="meta-item"><strong>Наличие:</strong> ${product.inStock ? '✅ В наличии' : '❌ Нет в наличии'}</div>
+            </div>
+        </div>
     `;
     
-    // Очистка списка времени
-    timesList.innerHTML = '';
+    // Очистка сетки размеров
+    sizesGrid.innerHTML = '';
     
-    // Добавление времени сеансов
-    movie.sessions.forEach(time => {
-        const timeButton = document.createElement('button');
-        timeButton.className = 'time-btn';
-        timeButton.textContent = time;
-        timeButton.onclick = function() {
-            selectTime(time);
+    // Добавление размеров
+    product.sizes.forEach(size => {
+        const sizeButton = document.createElement('button');
+        sizeButton.className = 'size-btn';
+        sizeButton.textContent = size;
+        sizeButton.onclick = function() {
+            selectSize(size);
+            // Сброс выделения у всех кнопок
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            // Выделение текущей кнопки
+            this.classList.add('selected');
         };
-        timesList.appendChild(timeButton);
-    });
-}
-
-// Выбор времени
-function selectTime(time) {
-    currentOrder.time = time;
-    showSeats();
-    showScreen('seatsScreen');
-}
-
-// Показать экран выбора мест
-function showSeats() {
-    const selectedSessionInfo = document.getElementById('selectedSessionInfo');
-    const seatsGrid = document.getElementById('seatsGrid');
-    
-    // Обновление информации о сеансе
-    selectedSessionInfo.innerHTML = `
-        <strong>${currentOrder.movie.title}</strong><br>
-        Время: ${currentOrder.time}<br>
-        Зал: 1
-    `;
-    
-    // Очистка сетки мест
-    seatsGrid.innerHTML = '';
-    
-    // Генерация мест (5 рядов A-E, 8 мест в ряду)
-    const rows = ['A', 'B', 'C', 'D', 'E'];
-    rows.forEach(row => {
-        for (let number = 1; number <= 8; number++) {
-            const seatId = row + number;
-            const seat = document.createElement('div');
-            seat.className = 'seat';
-            seat.textContent = seatId;
-            seat.setAttribute('data-seat', seatId);
-            
-            // Проверка занятости места
-            if (OCCUPIED_SEATS.includes(seatId)) {
-                seat.classList.add('occupied');
-            } else {
-                seat.classList.add('available');
-                // Случайные VIP места
-                if (Math.random() > 0.7) {
-                    seat.classList.add('vip');
-                }
-                seat.onclick = function() {
-                    toggleSeat(seatId);
-                };
-            }
-            
-            seatsGrid.appendChild(seat);
-        }
+        sizesGrid.appendChild(sizeButton);
     });
     
-    // Обновление информации о выбранных местах
-    updateSelectedSeats();
+    // Обновление информации о выборе
+    document.getElementById('selectedProductName').textContent = product.title;
+    document.getElementById('selectedPrice').textContent = product.price;
 }
 
-// Переключение выбора места
-function toggleSeat(seatId) {
-    const seatIndex = currentOrder.seats.indexOf(seatId);
-    const seatElement = document.querySelector(`[data-seat="${seatId}"]`);
-    
-    if (seatIndex === -1) {
-        // Добавление места
-        currentOrder.seats.push(seatId);
-        seatElement.classList.add('selected');
-    } else {
-        // Удаление места
-        currentOrder.seats.splice(seatIndex, 1);
-        seatElement.classList.remove('selected');
-    }
-    
-    updateSelectedSeats();
+// Выбор размера
+function selectSize(size) {
+    currentOrder.selectedSize = size;
+    document.getElementById('selectedSize').textContent = size;
 }
 
-// Обновление информации о выбранных местах
-function updateSelectedSeats() {
-    const selectedSeatsCount = document.getElementById('selectedSeatsCount');
-    const selectedSeatsList = document.getElementById('selectedSeatsList');
-    const totalPrice = document.getElementById('totalPrice');
-    
-    // Обновление счетчика
-    selectedSeatsCount.textContent = currentOrder.seats.length;
-    
-    // Обновление списка мест
-    selectedSeatsList.innerHTML = '';
-    let total = 0;
-    
-    currentOrder.seats.forEach(seatId => {
-        const seatBadge = document.createElement('span');
-        seatBadge.className = 'seat-badge';
-        seatBadge.textContent = seatId;
-        
-        // Определение цены (VIP или обычное)
-        const seatElement = document.querySelector(`[data-seat="${seatId}"]`);
-        const isVip = seatElement.classList.contains('vip');
-        const price = isVip ? currentOrder.movie.vipPrice : currentOrder.movie.price;
-        total += price;
-        
-        selectedSeatsList.appendChild(seatBadge);
-    });
-    
-    // Обновление общей стоимости
-    currentOrder.totalPrice = total;
-    totalPrice.textContent = total;
-}
-
-// Подтверждение покупки
-function confirmPurchase() {
-    if (currentOrder.seats.length === 0) {
-        alert('Пожалуйста, выберите хотя бы одно место!');
+// Добавить в корзину
+function addToCart() {
+    if (!currentOrder.selectedSize) {
+        alert('Пожалуйста, выберите размер!');
         return;
     }
     
-    // Показ экрана подтверждения
-    showConfirmationScreen();
-    showScreen('confirmationScreen');
-}
-
-// Показать экран подтверждения
-function showConfirmationScreen() {
-    const ticketInfo = document.getElementById('ticketInfo');
+    const cartItem = {
+        id: currentOrder.product.id,
+        title: currentOrder.product.title,
+        size: currentOrder.selectedSize,
+        price: currentOrder.product.price,
+        image: currentOrder.product.imageUrl,
+        quantity: 1
+    };
     
-    ticketInfo.innerHTML = `
-        <h3>🎫 Ваши билеты</h3>
-        <div class="ticket-info"><strong>Фильм:</strong> ${currentOrder.movie.title}</div>
-        <div class="ticket-info"><strong>Время:</strong> ${currentOrder.time}</div>
-        <div class="ticket-info"><strong>Зал:</strong> 1</div>
-        <div class="ticket-info"><strong>Места:</strong> ${currentOrder.seats.join(', ')}</div>
-        <div class="ticket-info"><strong>Общая стоимость:</strong> ${currentOrder.totalPrice} руб.</div>
-        <div class="ticket-info"><strong>Код брони:</strong> ${generateBookingCode()}</div>
-    `;
+    // Проверка, есть ли уже такой товар в корзине
+    const existingItem = currentOrder.cart.find(item => 
+        item.id === cartItem.id && item.size === cartItem.size
+    );
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        currentOrder.cart.push(cartItem);
+    }
+    
+    updateCartDisplay();
+    alert(`✅ "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) добавлен в корзину!`);
+    
+    // Сброс выбора
+    currentOrder.selectedSize = null;
+    document.getElementById('selectedSize').textContent = 'Не выбран';
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
 }
 
-// Генерация кода брони
-function generateBookingCode() {
-    return Math.random().toString(36).substr(2, 8).toUpperCase();
+// Купить сейчас
+function buyNow() {
+    if (!currentOrder.selectedSize) {
+        alert('Пожалуйста, выберите размер!');
+        return;
+    }
+    
+    // Добавить товар в корзину
+    addToCart();
+    
+    // Перейти к оформлению
+    showScreen('cartScreen');
+}
+
+// Обновление отображения корзины
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    const emptyCart = document.getElementById('emptyCart');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    // Очистка корзины
+    cartItems.innerHTML = '';
+    
+    if (currentOrder.cart.length === 0) {
+        emptyCart.style.display = 'block';
+        cartCount.textContent = '0';
+        cartTotal.textContent = '0';
+        return;
+    }
+    
+    emptyCart.style.display = 'none';
+    
+    // Добавление товаров в корзину
+    let total = 0;
+    let itemCount = 0;
+    
+    currentOrder.cart.forEach((item, index) => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <div class="cart-item-image">
+                <img src="${item.image}" alt="${item.title}">
+            </div>
+            <div class="cart-item-info">
+                <div class="cart-item-title">${item.title}</div>
+                <div class="cart-item-details">
+                    <span>Размер: ${item.size}</span>
+                    <span>Кол-во: ${item.quantity}</span>
+                    <span>${item.price * item.quantity} руб.</span>
+                </div>
+            </div>
+            <button class="remove-item-btn" onclick="removeFromCart(${index})">🗑️</button>
+        `;
+        cartItems.appendChild(cartItem);
+        
+        total += item.price * item.quantity;
+        itemCount += item.quantity;
+    });
+    
+    cartCount.textContent = itemCount;
+    cartTotal.textContent = total;
+}
+
+// Удалить из корзины
+function removeFromCart(index) {
+    currentOrder.cart.splice(index, 1);
+    updateCartDisplay();
+}
+
+// Оформить заказ
+function checkout() {
+    if (currentOrder.cart.length === 0) {
+        alert('Корзина пуста!');
+        return;
+    }
+    
+    showOrderConfirmation();
+    showScreen('checkoutScreen');
+}
+
+// Показать подтверждение заказа
+function showOrderConfirmation() {
+    const orderDetails = document.getElementById('orderDetails');
+    let total = 0;
+    let itemsCount = 0;
+    
+    let itemsHtml = '<h3>🛍️ Ваш заказ:</h3>';
+    currentOrder.cart.forEach(item => {
+        itemsHtml += `
+            <div class="order-item">
+                <strong>${item.title}</strong> (размер: ${item.size})<br>
+                ${item.quantity} шт. × ${item.price} руб. = ${item.price * item.quantity} руб.
+            </div>
+        `;
+        total += item.price * item.quantity;
+        itemsCount += item.quantity;
+    });
+    
+    itemsHtml += `
+        <div class="order-total">
+            <strong>Итого:</strong> ${itemsCount} товаров на сумму ${total} руб.
+        </div>
+    `;
+    
+    orderDetails.innerHTML = itemsHtml;
+    
+    // Отправка данных в Telegram бота
+    const orderData = {
+        action: 'order_created',
+        order_details: {
+            order_id: generateOrderId(),
+            items_count: itemsCount,
+            total_price: total,
+            items: currentOrder.cart
+        }
+    };
+    
+    // Отправляем данные в Telegram бота
+    if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.sendData(JSON.stringify(orderData));
+    }
 }
 
 // Начать новый заказ
 function startNewOrder() {
     // Сброс текущего заказа
     currentOrder = {
-        genre: null,
-        movie: null,
-        time: null,
-        seats: [],
+        category: null,
+        product: null,
+        selectedSize: null,
+        cart: [],
         totalPrice: 0
     };
     
+    // Обновление отображения корзины
+    updateCartDisplay();
+    
     // Показать начальный экран
-    showScreen('genreScreen');
+    showScreen('categoryScreen');
+}
+
+// Показать информацию о магазине
+function showStoreInfo() {
+    showScreen('infoScreen');
 }
 
 // Показать определенный экран
@@ -413,6 +510,16 @@ function showScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
 }
 
+// Генерация ID заказа
+function generateOrderId() {
+    return Math.floor(1000 + Math.random() * 9000);
+}
+
+// Генерация кода брони
+function generateBookingCode() {
+    return Math.random().toString(36).substr(2, 8).toUpperCase();
+}
+
 // Функции для чата с AI (остаются без изменений)
 async function getDeepSeekResponse(message) {
     const apiKey = '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';
@@ -423,7 +530,7 @@ async function getDeepSeekResponse(message) {
         messages: [
             {
                 role: 'system',
-                content: 'Ты помощник в кинотеатре. Отвечай кратко и полезно. Помогай с выбором фильмов, давай рекомендации и информацию о кино.'
+                content: `Ты консультант магазина одежды 'FashionStore'. Отвечай кратко и полезно. Помогай с выбором одежды, размеров, стилей. Информация о магазине: Адрес: ${STORE_INFO.address}, Телефон: ${STORE_INFO.phone}, Время работы: ${STORE_INFO.hours}. Доступные категории: мужская одежда, женская одежда, зимняя коллекция, летняя коллекция, аксессуары.`
             },
             {
                 role: 'user',
@@ -441,7 +548,7 @@ async function getDeepSeekResponse(message) {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
                 'HTTP-Referer': 'https://oo0ff.github.io/bot/',
-                'X-Title': 'CinemaBot'
+                'X-Title': 'FashionStore Bot'
             },
             body: JSON.stringify(requestData)
         });
@@ -496,7 +603,7 @@ function showTypingIndicator() {
     typingIndicator.id = 'typingIndicator';
     
     typingIndicator.innerHTML = `
-        Помощник печатает
+        Консультант печатает
         <div class="typing-dots">
             <div class="typing-dot"></div>
             <div class="typing-dot"></div>
