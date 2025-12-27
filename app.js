@@ -2,6 +2,7 @@
 let tg = window.Telegram.WebApp;
 if (tg && tg.initData) {
     tg.expand();
+    console.log("Telegram Web App инициализирован");
 }
 
 // Настройка основной кнопки
@@ -188,12 +189,41 @@ let currentOrder = {
 // Состояние чата
 let isChatOpen = false;
 
+// Инициализация приложения
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔄 Инициализация приложения AESTHETE");
+    
+    // Восстановление корзины из localStorage
+    restoreCartFromStorage();
+    
+    // Инициализация кнопок категорий
+    initializeCategoryButtons();
+    
+    // Инициализация чата
+    initializeChat();
+    
+    // Инициализация кнопки "Новый заказ" на экране оформления
+    document.querySelector('.new-order-btn')?.addEventListener('click', startNewOrder);
+    
+    // Проверка демо-режима
+    if (!window.Telegram || !window.Telegram.WebApp) {
+        console.log("📱 Приложение открыто в браузере, демо-режим активирован");
+        showNotification("Демо-режим активирован. Запустите в Telegram для полного функционала.", "info");
+    }
+    
+    // Обновляем иконку корзины
+    updateCartIcon();
+    
+    console.log("✅ Приложение инициализировано. Товаров в корзине:", currentOrder.cart.length);
+});
+
 // Сохранить корзину в localStorage
 function saveCartToStorage() {
     try {
         localStorage.setItem('aesthete_cart', JSON.stringify(currentOrder.cart));
+        console.log("💾 Корзина сохранена:", currentOrder.cart);
     } catch (e) {
-        console.error("Ошибка сохранения корзины:", e);
+        console.error("❌ Ошибка сохранения корзины:", e);
     }
 }
 
@@ -203,41 +233,13 @@ function restoreCartFromStorage() {
         const savedCart = localStorage.getItem('aesthete_cart');
         if (savedCart) {
             currentOrder.cart = JSON.parse(savedCart);
-            updateCartIcon();
+            console.log("📦 Корзина восстановлена из localStorage:", currentOrder.cart);
         }
     } catch (e) {
-        console.error("Ошибка восстановления корзины:", e);
+        console.error("❌ Ошибка восстановления корзины:", e);
+        currentOrder.cart = [];
     }
 }
-
-// Инициализация приложения
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Инициализация приложения...");
-    
-    initializeCategoryButtons();
-    updateCartIcon();
-    
-    // Инициализация чата
-    document.getElementById('chatToggle').addEventListener('click', toggleChat);
-    document.getElementById('closeChat').addEventListener('click', toggleChat);
-    
-    // Инициализация отправки сообщения
-    document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
-    document.getElementById('userInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
-    });
-    
-    // Проверка, если открыто на ПК (без Telegram WebApp)
-    if (!window.Telegram || !window.Telegram.WebApp) {
-        console.log("Приложение открыто в браузере, демо-режим активирован");
-        showNotification("Демо-режим активирован. Запустите в Telegram для полного функционала.", "info");
-    }
-    
-    // Восстановление корзины из localStorage
-    restoreCartFromStorage();
-});
 
 // Инициализация кнопок категорий
 function initializeCategoryButtons() {
@@ -247,6 +249,8 @@ function initializeCategoryButtons() {
             e.preventDefault();
             e.stopPropagation();
             const category = this.getAttribute('data-category');
+            console.log("🎯 Выбрана категория:", category);
+            
             if (category === 'info') {
                 showStoreInfo();
             } else {
@@ -254,6 +258,25 @@ function initializeCategoryButtons() {
             }
         });
     });
+}
+
+// Инициализация чата
+function initializeChat() {
+    const chatToggle = document.getElementById('chatToggle');
+    const closeChat = document.getElementById('closeChat');
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+    const userInput = document.getElementById('userInput');
+    
+    if (chatToggle) chatToggle.addEventListener('click', toggleChat);
+    if (closeChat) closeChat.addEventListener('click', toggleChat);
+    if (sendMessageBtn) sendMessageBtn.addEventListener('click', sendMessage);
+    if (userInput) {
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
 }
 
 // Выбор категории
@@ -268,6 +291,11 @@ function showProducts(category) {
     const productsList = document.getElementById('productsList');
     const screenTitle = document.getElementById('productScreenTitle');
     
+    if (!productsList || !screenTitle) {
+        console.error("❌ Не найдены элементы для отображения товаров");
+        return;
+    }
+    
     // Установка заголовка
     const categoryNames = {
         mens: 'Мужская коллекция',
@@ -277,21 +305,26 @@ function showProducts(category) {
         accessories: 'Аксессуары'
     };
     
-    screenTitle.textContent = categoryNames[category];
+    screenTitle.textContent = categoryNames[category] || 'Коллекция';
     
     // Очистка списка
     productsList.innerHTML = '';
     
     // Добавление товаров
-    const products = PRODUCTS_DATA[category];
+    const products = PRODUCTS_DATA[category] || [];
+    
+    if (products.length === 0) {
+        productsList.innerHTML = '<div class="empty-message">Товары временно отсутствуют</div>';
+        return;
+    }
+    
     products.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
-        productCard.setAttribute('data-product-id', product.id);
-        
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
+                <img src="${product.imageUrl}" alt="${product.title}" 
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
                 <div class="product-badge">${product.category}</div>
             </div>
             <div class="product-info">
@@ -305,19 +338,18 @@ function showProducts(category) {
                 <button class="product-btn" onclick="selectProduct(${product.id})">Подробнее</button>
             </div>
         `;
-        
         productsList.appendChild(productCard);
     });
 }
 
 // Форматирование цены с разделителями
 function formatPrice(price) {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return price.toLocaleString('ru-RU');
 }
 
 // Выбор товара
 function selectProduct(productId) {
-    console.log('Выбор товара с ID:', productId);
+    console.log("🛍️ Выбор товара с ID:", productId);
     
     // Найти товар по ID
     let selectedProduct = null;
@@ -335,7 +367,7 @@ function selectProduct(productId) {
         showProductDetails(selectedProduct);
         showScreen('detailScreen');
     } else {
-        console.error('Товар не найден');
+        console.error('❌ Товар не найден');
         showNotification('Товар не найден', 'error');
     }
 }
@@ -345,10 +377,16 @@ function showProductDetails(product) {
     const productDetail = document.getElementById('productDetail');
     const sizesGrid = document.getElementById('sizesGrid');
     
+    if (!productDetail || !sizesGrid) {
+        console.error("❌ Не найдены элементы для отображения деталей товара");
+        return;
+    }
+    
     // Обновление информации о товаре
     productDetail.innerHTML = `
         <div class="product-image-large">
-            <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
+            <img src="${product.imageUrl}" alt="${product.title}" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
             <div class="product-badge-large">${product.category}</div>
         </div>
         <div class="product-info-large">
@@ -367,10 +405,9 @@ function showProductDetails(product) {
         </div>
     `;
     
-    // Очистка сетки размеров
+    // Очистка и заполнение сетки размеров
     sizesGrid.innerHTML = '';
     
-    // Добавление размеров
     product.sizes.forEach(size => {
         const sizeButton = document.createElement('button');
         sizeButton.className = 'size-btn';
@@ -422,12 +459,12 @@ function addToCart() {
     };
     
     // Проверка, есть ли уже такой товар в корзине
-    const existingItem = currentOrder.cart.find(item => 
+    const existingItemIndex = currentOrder.cart.findIndex(item => 
         item.id === cartItem.id && item.size === cartItem.size
     );
     
-    if (existingItem) {
-        existingItem.quantity += 1;
+    if (existingItemIndex !== -1) {
+        currentOrder.cart[existingItemIndex].quantity += 1;
         showNotification(`${currentOrder.product.title} (размер ${currentOrder.selectedSize}) обновлен`, 'success');
     } else {
         currentOrder.cart.push(cartItem);
@@ -437,8 +474,7 @@ function addToCart() {
     // Сохраняем в localStorage
     saveCartToStorage();
     
-    // Обновляем отображение
-    updateCartDisplay();
+    // Обновляем иконку корзины
     updateCartIcon();
     
     // Сброс выбора
@@ -465,15 +501,13 @@ function buyNow() {
 
 // Обновление отображения корзины
 function updateCartDisplay() {
-    console.log("Обновление отображения корзины...", currentOrder.cart);
-    
     const cartItems = document.getElementById('cartItems');
     const emptyCart = document.getElementById('emptyCart');
     const cartCount = document.getElementById('cartCount');
     const cartTotal = document.getElementById('cartTotal');
     
     if (!cartItems || !emptyCart || !cartCount || !cartTotal) {
-        console.log("Элементы корзины не найдены на этом экране");
+        console.log("ℹ️ Элементы корзины не найдены на этом экране");
         return;
     }
     
@@ -498,7 +532,8 @@ function updateCartDisplay() {
         cartItem.className = 'cart-item';
         cartItem.innerHTML = `
             <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.title}">
+                <img src="${item.image}" alt="${item.title}" 
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
             </div>
             <div class="cart-item-info">
                 <div class="cart-item-header">
@@ -540,6 +575,8 @@ function updateCartDisplay() {
 
 // Изменение количества товара
 function changeQuantity(index, delta) {
+    if (index < 0 || index >= currentOrder.cart.length) return;
+    
     const item = currentOrder.cart[index];
     const newQuantity = item.quantity + delta;
     
@@ -560,7 +597,8 @@ function changeQuantity(index, delta) {
 
 // Удалить из корзины
 function removeFromCart(index) {
-    const item = currentOrder.cart[index];
+    if (index < 0 || index >= currentOrder.cart.length) return;
+    
     currentOrder.cart.splice(index, 1);
     
     // Сохраняем в localStorage
@@ -573,8 +611,6 @@ function removeFromCart(index) {
 
 // Оформить заказ
 function checkout() {
-    console.log("Оформление заказа, корзина:", currentOrder.cart);
-    
     if (currentOrder.cart.length === 0) {
         showNotification('Корзина пуста', 'error');
         return;
@@ -587,6 +623,11 @@ function checkout() {
 // Показать подтверждение заказа
 function showOrderConfirmation() {
     const orderDetails = document.getElementById('orderDetails');
+    if (!orderDetails) {
+        console.error("❌ Элемент orderDetails не найден");
+        return;
+    }
+    
     let total = 0;
     let itemsCount = 0;
     
@@ -642,7 +683,7 @@ function showOrderConfirmation() {
     if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.sendData(JSON.stringify(orderData));
     } else {
-        console.log("Заказ оформлен (демо-режим):", orderData);
+        console.log("📤 Заказ оформлен (демо-режим):", orderData);
     }
     
     // Очищаем корзину после оформления
@@ -651,12 +692,13 @@ function showOrderConfirmation() {
     // Очищаем localStorage
     localStorage.removeItem('aesthete_cart');
     
+    // Обновляем иконку корзины
     updateCartIcon();
 }
 
 // Начать новый заказ
 function startNewOrder() {
-    console.log("Начинаем новый заказ...");
+    console.log("🔄 Начинаем новый заказ...");
     
     // Сброс текущего заказа
     currentOrder = {
@@ -676,6 +718,8 @@ function startNewOrder() {
     
     // Показать начальный экран
     showScreen('categoryScreen');
+    
+    showNotification('Новый заказ начат', 'success');
 }
 
 // Показать информацию о магазине
@@ -685,7 +729,7 @@ function showStoreInfo() {
 
 // Показать определенный экран
 function showScreen(screenId) {
-    console.log("Показ экрана:", screenId);
+    console.log("📱 Переход на экран:", screenId);
     
     // Скрыть все экраны
     const screens = document.querySelectorAll('.screen');
@@ -694,28 +738,33 @@ function showScreen(screenId) {
     });
     
     // Показать нужный экран
-    document.getElementById(screenId).classList.add('active');
-    
-    // Обновить иконку корзины при смене экрана
-    updateCartIcon();
-    
-    // Обновить отображение корзины если мы на экране корзины
-    if (screenId === 'cartScreen') {
-        updateCartDisplay();
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.classList.add('active');
+        
+        // Обновить отображение корзины если мы на экране корзины
+        if (screenId === 'cartScreen') {
+            updateCartDisplay();
+        }
+        
+        // Закрыть чат при смене экрана
+        if (isChatOpen) {
+            toggleChat();
+        }
+        
+        // Обновить иконку корзины
+        updateCartIcon();
+        
+        // Прокрутка вверх
+        window.scrollTo(0, 0);
+    } else {
+        console.error("❌ Экран не найден:", screenId);
     }
-    
-    // Закрыть чат при смене экрана
-    if (isChatOpen) {
-        toggleChat();
-    }
-    
-    // Прокрутка вверх
-    window.scrollTo(0, 0);
 }
 
 // Генерация ID заказа
 function generateOrderId() {
-    return 'AST-' + Math.floor(100000 + Math.random() * 900000);
+    return 'AST-' + Date.now().toString().slice(-8);
 }
 
 // Обновить иконку корзины в хедере
@@ -803,6 +852,7 @@ async function getDeepSeekResponse(message) {
             return 'Извините, в данный момент не могу подключиться к AI. Попробуйте позже.';
         }
     } catch (error) {
+        console.error('❌ Ошибка AI чата:', error);
         return 'Ошибка соединения. Проверьте интернет и попробуйте еще раз.';
     }
 }
@@ -812,27 +862,42 @@ async function sendMessage() {
     const chatMessages = document.getElementById('chatMessages');
     const sendButton = document.getElementById('sendMessageBtn');
     
-    if (userInput.value.trim() === '') return;
+    if (!userInput || !chatMessages || !sendButton) return;
+    
+    const message = userInput.value.trim();
+    if (message === '') return;
     
     sendButton.disabled = true;
     sendButton.innerHTML = '...';
     
+    // Добавляем сообщение пользователя
     const userMessage = document.createElement('div');
     userMessage.className = 'message user-message';
-    userMessage.textContent = userInput.value;
+    userMessage.textContent = message;
     chatMessages.appendChild(userMessage);
     
-    const userText = userInput.value;
+    // Очищаем поле ввода
     userInput.value = '';
     
+    // Показываем индикатор набора
     showTypingIndicator();
-    const aiResponse = await getDeepSeekResponse(userText);
-    removeTypingIndicator();
     
-    const botMessage = document.createElement('div');
-    botMessage.className = 'message bot-message';
-    botMessage.textContent = aiResponse;
-    chatMessages.appendChild(botMessage);
+    try {
+        const aiResponse = await getDeepSeekResponse(message);
+        removeTypingIndicator();
+        
+        // Добавляем ответ AI
+        const botMessage = document.createElement('div');
+        botMessage.className = 'message bot-message';
+        botMessage.textContent = aiResponse;
+        chatMessages.appendChild(botMessage);
+    } catch (error) {
+        removeTypingIndicator();
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'message bot-message';
+        errorMessage.textContent = 'Произошла ошибка. Пожалуйста, попробуйте позже.';
+        chatMessages.appendChild(errorMessage);
+    }
     
     sendButton.disabled = false;
     sendButton.innerHTML = '→';
@@ -841,6 +906,8 @@ async function sendMessage() {
 
 function showTypingIndicator() {
     const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
+    
     const typingIndicator = document.createElement('div');
     typingIndicator.className = 'message bot-message typing-indicator';
     typingIndicator.id = 'typingIndicator';
@@ -870,6 +937,8 @@ function toggleChat() {
     const chatWindow = document.getElementById('chatWindow');
     const chatToggle = document.getElementById('chatToggle');
     
+    if (!chatWindow || !chatToggle) return;
+    
     isChatOpen = !isChatOpen;
     
     if (isChatOpen) {
@@ -881,7 +950,8 @@ function toggleChat() {
         `;
         // Фокус на поле ввода
         setTimeout(() => {
-            document.getElementById('userInput').focus();
+            const userInput = document.getElementById('userInput');
+            if (userInput) userInput.focus();
         }, 100);
     } else {
         chatWindow.style.display = 'none';
@@ -890,6 +960,17 @@ function toggleChat() {
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
             </svg>
         `;
+    }
+}
+
+// Функция для навигации из корзины
+function goBackFromCart() {
+    if (currentOrder.product) {
+        showScreen('detailScreen');
+    } else if (currentOrder.category) {
+        showScreen('productScreen');
+    } else {
+        showScreen('categoryScreen');
     }
 }
 
@@ -906,14 +987,4 @@ window.changeQuantity = changeQuantity;
 window.removeFromCart = removeFromCart;
 window.sendMessage = sendMessage;
 window.toggleChat = toggleChat;
-
-// Функция для навигации из корзины
-window.goBackFromCart = function() {
-    if (currentOrder.product) {
-        showScreen('detailScreen');
-    } else if (currentOrder.category) {
-        showScreen('productScreen');
-    } else {
-        showScreen('categoryScreen');
-    }
-};
+window.goBackFromCart = goBackFromCart;
