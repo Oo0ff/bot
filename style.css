@@ -592,32 +592,35 @@ body {
     overflow: hidden;
 }
 
-.cart-items {
-    padding: 16px;
+.cart-items-container {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 80px;
+    padding-bottom: 20px;
 }
 
 .empty-cart {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--color-gray-500);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--color-gray-500);
+    width: 100%;
+    min-height: 300px;
 }
 
 .empty-icon {
     color: var(--color-gray-300);
+    margin-bottom: 20px;
 }
 
 .empty-title {
     font-size: 16px;
     font-weight: 500;
     color: var(--color-gray-700);
+    margin-bottom: 8px;
 }
 
 .empty-cart p {
@@ -625,6 +628,13 @@ body {
     color: var(--color-gray-500);
     max-width: 200px;
     line-height: 1.5;
+}
+
+.cart-items {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .cart-item {
@@ -635,9 +645,12 @@ body {
     background: var(--color-white);
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    margin-bottom: 12px;
     position: relative;
-    -webkit-tap-highlight-color: transparent;
+    animation: fadeIn 0.3s ease;
+}
+
+.cart-item:last-child {
+    margin-bottom: 0;
 }
 
 .cart-item-image {
@@ -1362,21 +1375,21 @@ body {
 .chat-messages::-webkit-scrollbar,
 .products-list::-webkit-scrollbar,
 .store-info::-webkit-scrollbar,
-.cart-items::-webkit-scrollbar {
+.cart-items-container::-webkit-scrollbar {
     width: 4px;
 }
 
 .chat-messages::-webkit-scrollbar-track,
 .products-list::-webkit-scrollbar-track,
 .store-info::-webkit-scrollbar-track,
-.cart-items::-webkit-scrollbar-track {
+.cart-items-container::-webkit-scrollbar-track {
     background: transparent;
 }
 
 .chat-messages::-webkit-scrollbar-thumb,
 .products-list::-webkit-scrollbar-thumb,
 .store-info::-webkit-scrollbar-thumb,
-.cart-items::-webkit-scrollbar-thumb {
+.cart-items-container::-webkit-scrollbar-thumb {
     background: var(--color-gray-300);
     border-radius: 2px;
 }
@@ -1384,7 +1397,7 @@ body {
 .chat-messages::-webkit-scrollbar-thumb:hover,
 .products-list::-webkit-scrollbar-thumb:hover,
 .store-info::-webkit-scrollbar-thumb:hover,
-.cart-items::-webkit-scrollbar-thumb:hover {
+.cart-items-container::-webkit-scrollbar-thumb:hover {
     background: var(--color-gray-400);
 }
 
@@ -1392,7 +1405,7 @@ body {
 .chat-messages,
 .products-list,
 .store-info,
-.cart-items {
+.cart-items-container {
     scrollbar-width: thin;
     scrollbar-color: var(--color-gray-300) transparent;
 }
@@ -1406,9 +1419,7 @@ body {
     .buy-now-btn,
     .checkout-btn,
     .continue-btn,
-    .new-order-btn,
-    .quantity-btn,
-    .remove-item-btn {
+    .new-order-btn {
         min-height: 44px;
     }
     
@@ -1416,6 +1427,7 @@ body {
         cursor: pointer;
     }
 }
+
 /* Улучшенные стили для кликабельных элементов */
 .product-card {
     cursor: pointer;
