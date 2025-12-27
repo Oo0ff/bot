@@ -2,65 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="style.css">
-    <title>AESTHETE — Магазин премиальной одежды</title>
+    <title>AESTHETE — Магазин одежды</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        /* Стили для прелоадера */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .preloader-logo {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        .preloader-progress {
-            width: 200px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 1px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        
-        .preloader-progress-bar {
-            height: 100%;
-            background: #fff;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
     </style>
 </head>
 <body>
-    <!-- Прелоадер -->
-    <div id="preloader">
-        <div class="preloader-logo">AESTHETE</div>
-        <div class="preloader-progress">
-            <div class="preloader-progress-bar"></div>
-        </div>
-    </div>
-    
     <div class="container">
         <!-- Экран выбора категории -->
         <div id="categoryScreen" class="screen active">
@@ -90,7 +39,7 @@
                             <path d="M16 2V7"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-mens" data-category="mens">Мужская</button>
+                    <button class="category-btn" data-category="mens">Мужская</button>
                 </div>
                 <div class="category-card">
                     <div class="category-icon">
@@ -100,7 +49,7 @@
                             <path d="M2 12L12 17L22 12"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-womens" data-category="womens">Женская</button>
+                    <button class="category-btn" data-category="womens">Женская</button>
                 </div>
                 <div class="category-card">
                     <div class="category-icon">
@@ -114,7 +63,7 @@
                             <path d="M5 13L7 5H17L19 13"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-winter" data-category="winter">Зимняя</button>
+                    <button class="category-btn" data-category="winter">Зимняя</button>
                 </div>
                 <div class="category-card">
                     <div class="category-icon">
@@ -130,7 +79,7 @@
                             <path d="M6.34 6.34L4.93 4.93"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-summer" data-category="summer">Летняя</button>
+                    <button class="category-btn" data-category="summer">Летняя</button>
                 </div>
                 <div class="category-card">
                     <div class="category-icon">
@@ -140,7 +89,7 @@
                             <path d="M17.5 15H9"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-accessories" data-category="accessories">Аксессуары</button>
+                    <button class="category-btn" data-category="accessories">Аксессуары</button>
                 </div>
                 <div class="category-card">
                     <div class="category-icon">
@@ -149,7 +98,7 @@
                             <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"/>
                         </svg>
                     </div>
-                    <button class="category-btn" id="category-info" data-category="info">Контакты</button>
+                    <button class="category-btn" data-category="info">Контакты</button>
                 </div>
             </div>
         </div>
@@ -329,7 +278,7 @@
                     </div>
                     <a href="https://aesthetestore.ru/delivery" target="_blank" class="info-link">Подробнее о доставке</a>
                 </div>
-                <button class="new-order-btn">Новый заказ</button>
+                <button class="new-order-btn" onclick="startNewOrder()">Новый заказ</button>
             </div>
         </div>
 
@@ -405,7 +354,7 @@
             </div>
         </div>
 
-        <!-- Чат с AI консультантом -->
+        <!-- Чат с AI консультантом (скрыт по умолчанию) -->
         <div id="chatWindow" class="chat-window">
             <div class="chat-header">
                 <div class="chat-title">Консультант</div>
@@ -418,7 +367,7 @@
             <div class="chat-container">
                 <div id="chatMessages" class="chat-messages">
                     <div class="message bot-message">
-                        Добро пожаловать в AESTHETE! Я ваш персональный консультант. Помогу с выбором одежды, размеров и стилей. Чем могу помочь?
+                        Добро пожаловать. Чем могу помочь в выборе?
                     </div>
                 </div>
                 <div class="chat-input">
@@ -438,42 +387,5 @@
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="app.js"></script>
-    <script>
-        // Обработчик прелоадера
-        document.addEventListener('DOMContentLoaded', function() {
-            const preloader = document.getElementById('preloader');
-            const progressBar = document.querySelector('.preloader-progress-bar');
-            
-            // Анимируем прогресс бар
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 20;
-                if (progress > 100) progress = 100;
-                progressBar.style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    // Скрываем прелоадер с задержкой
-                    setTimeout(() => {
-                        preloader.style.opacity = '0';
-                        preloader.style.transition = 'opacity 0.5s ease';
-                        setTimeout(() => {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }, 300);
-                }
-            }, 100);
-        });
-        
-        // Предотвращаем масштабирование на двойной тап
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-    </script>
 </body>
 </html>
