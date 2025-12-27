@@ -201,8 +201,7 @@
             </header>
             
             <div class="cart-container">
-                <div class="cart-items" id="cartItems">
-                    <!-- Товары в корзине будут здесь -->
+                <div class="cart-items-container">
                     <div class="empty-cart" id="emptyCart">
                         <div class="empty-icon">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -213,6 +212,9 @@
                         </div>
                         <div class="empty-title">Корзина пуста</div>
                         <p>Добавьте товары из коллекции</p>
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                        <!-- Товары в корзине будут здесь -->
                     </div>
                 </div>
                 
@@ -390,9 +392,9 @@
     <script>
         // Дополнительная функция для навигации из корзины
         function goBackFromCart() {
-            if (currentOrder.product) {
+            if (currentOrder && currentOrder.product) {
                 showScreen('detailScreen');
-            } else if (currentOrder.category) {
+            } else if (currentOrder && currentOrder.category) {
                 showScreen('productScreen');
             } else {
                 showScreen('categoryScreen');
