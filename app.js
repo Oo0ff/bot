@@ -20,7 +20,7 @@ const PRODUCTS_DATA = {
             price: 85000,
             sizes: ["48", "50", "52", "54", "56"],
             season: "Всесезонный",
-            category: "Коллекция VIP",
+            category: "Коллекция шерсть",
             imageUrl: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
             colors: ["Черный", "Темно-синий", "Шампань"],
             inStock: true,
@@ -451,11 +451,11 @@ function updateCartDisplay() {
     const cartCount = document.getElementById('cartCount');
     const cartTotal = document.getElementById('cartTotal');
     
-    // Очистка корзины
+    // Очистка корзины (кроме элемента emptyCart)
     cartItems.innerHTML = '';
     
     if (currentOrder.cart.length === 0) {
-        emptyCart.style.display = 'block';
+        emptyCart.style.display = 'flex';
         cartCount.textContent = '0';
         cartTotal.textContent = '0';
         return;
@@ -472,7 +472,7 @@ function updateCartDisplay() {
         cartItem.className = 'cart-item';
         cartItem.innerHTML = `
             <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.title}">
+                <img src="${item.image}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
             </div>
             <div class="cart-item-info">
                 <div class="cart-item-header">
@@ -632,11 +632,14 @@ function showOrderConfirmation() {
     
     // Очищаем корзину после оформления
     currentOrder.cart = [];
+    updateCartDisplay();
     updateCartIcon();
 }
 
 // Начать новый заказ
 function startNewOrder() {
+    console.log('Начинаем новый заказ');
+    
     // Сброс текущего заказа
     currentOrder = {
         category: null,
@@ -652,6 +655,12 @@ function startNewOrder() {
     
     // Показать начальный экран
     showScreen('categoryScreen');
+    
+    // Прокрутка вверх
+    window.scrollTo(0, 0);
+    
+    // Показать уведомление
+    showNotification('Начинаем новый заказ', 'info');
 }
 
 // Показать информацию о магазине
