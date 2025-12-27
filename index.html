@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="style.css">
     <title>AESTHETE — Магазин одежды</title>
     <style>
@@ -98,7 +98,7 @@
                             <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"/>
                         </svg>
                     </div>
-                    <button class="category-btn" onclick="showStoreInfo()">Контакты</button>
+                    <button class="category-btn" data-category="info">Контакты</button>
                 </div>
             </div>
         </div>
@@ -190,7 +190,7 @@
         <div id="cartScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="showScreen('detailScreen')">
+                    <button class="back-btn" onclick="goBackFromCart()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
                         </svg>
@@ -354,11 +354,15 @@
             </div>
         </div>
 
-        <!-- Чат с AI консультантом -->
-        <div class="chat-section">
+        <!-- Чат с AI консультантом (скрыт по умолчанию) -->
+        <div id="chatWindow" class="chat-window">
             <div class="chat-header">
                 <div class="chat-title">Консультант</div>
-                <div class="chat-subtitle">Помощь в выборе</div>
+                <button id="closeChat" class="close-chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                    </svg>
+                </button>
             </div>
             <div class="chat-container">
                 <div id="chatMessages" class="chat-messages">
@@ -368,18 +372,32 @@
                 </div>
                 <div class="chat-input">
                     <input type="text" id="userInput" placeholder="Задать вопрос...">
-                    <button onclick="sendMessage()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 2L11 13"/>
-                            <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
-                        </svg>
-                    </button>
+                    <button id="sendMessageBtn">→</button>
                 </div>
             </div>
         </div>
+
+        <!-- Кнопка для открытия чата -->
+        <button id="chatToggle" class="chat-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+        </button>
     </div>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Дополнительная функция для навигации из корзины
+        function goBackFromCart() {
+            if (currentOrder.product) {
+                showScreen('detailScreen');
+            } else if (currentOrder.category) {
+                showScreen('productScreen');
+            } else {
+                showScreen('categoryScreen');
+            }
+        }
+    </script>
 </body>
 </html>
