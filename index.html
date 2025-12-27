@@ -4,126 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Кинотеатр - Покупка билетов</title>
+    <title>FashionStore - Магазин одежды</title>
 </head>
 <body>
     <div class="container">
-        <!-- Экран выбора жанра -->
-        <div id="genreScreen" class="screen active">
+        <!-- Экран выбора категории -->
+        <div id="categoryScreen" class="screen active">
             <header class="header">
-                <h1 class="title">Кинотеатр</h1>
-                <p class="subtitle">Выберите жанр фильма</p>
+                <h1 class="title">🛍️ FashionStore</h1>
+                <p class="subtitle">Выберите категорию одежды</p>
             </header>
             
-            <div class="genres-grid">
-                <div class="genre-card">
-                    <div class="genre-icon comedy">😊</div>
-                    <button class="genre-btn" data-genre="comedy">Комедии</button>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon mens">👔</div>
+                    <button class="category-btn" data-category="mens">Мужская</button>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-icon action">💥</div>
-                    <button class="genre-btn" data-genre="action">Боевики</button>
+                <div class="category-card">
+                    <div class="category-icon womens">👗</div>
+                    <button class="category-btn" data-category="womens">Женская</button>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-icon drama">🎭</div>
-                    <button class="genre-btn" data-genre="drama">Драмы</button>
+                <div class="category-card">
+                    <div class="category-icon winter">❄️</div>
+                    <button class="category-btn" data-category="winter">Зимняя</button>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-icon fantasy">🚀</div>
-                    <button class="genre-btn" data-genre="fantasy">Фантастика</button>
+                <div class="category-card">
+                    <div class="category-icon summer">☀️</div>
+                    <button class="category-btn" data-category="summer">Летняя</button>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-icon romance">❤️</div>
-                    <button class="genre-btn" data-genre="romance">Мелодрамы</button>
+                <div class="category-card">
+                    <div class="category-icon accessories">🧣</div>
+                    <button class="category-btn" data-category="accessories">Аксессуары</button>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-icon horror">👻</div>
-                    <button class="genre-btn" data-genre="horror">Ужасы</button>
+                <div class="category-card">
+                    <div class="category-icon info">🏪</div>
+                    <button class="category-btn" onclick="showStoreInfo()">О магазине</button>
                 </div>
             </div>
         </div>
 
-        <!-- Экран выбора фильма -->
-        <div id="movieScreen" class="screen">
+        <!-- Экран выбора товара -->
+        <div id="productScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('genreScreen')">← Назад</button>
-                <h2 class="screen-title" id="movieScreenTitle">Выбор фильма</h2>
+                <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
+                <h2 class="screen-title" id="productScreenTitle">Выбор товара</h2>
             </header>
             
-            <div class="movies-list" id="moviesList">
-                <!-- Фильмы будут загружаться здесь -->
+            <div class="products-list" id="productsList">
+                <!-- Товары будут загружаться здесь -->
             </div>
         </div>
 
-        <!-- Экран выбора времени -->
-        <div id="timeScreen" class="screen">
+        <!-- Экран деталей товара -->
+        <div id="detailScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('movieScreen')">← Назад</button>
-                <h2 class="screen-title" id="timeScreenTitle">Выбор времени</h2>
+                <button class="back-btn" onclick="showScreen('productScreen')">← Назад</button>
+                <h2 class="screen-title">Детали товара</h2>
             </header>
             
-            <div class="selected-movie" id="selectedMovieInfo">
-                <!-- Информация о выбранном фильме -->
+            <div class="product-detail" id="productDetail">
+                <!-- Детали товара будут здесь -->
             </div>
             
-            <div class="times-grid" id="timesList">
-                <!-- Время сеансов будет здесь -->
-            </div>
-        </div>
-
-        <!-- Экран выбора мест -->
-        <div id="seatsScreen" class="screen">
-            <header class="header">
-                <button class="back-btn" onclick="showScreen('timeScreen')">← Назад</button>
-                <h2 class="screen-title">Выбор мест</h2>
-            </header>
-            
-            <div class="selected-session" id="selectedSessionInfo">
-                <!-- Информация о выбранном сеансе -->
-            </div>
-            
-            <div class="cinema-hall">
-                <div class="screen-indicator">ЭКРАН</div>
-                <div class="seats-grid" id="seatsGrid">
-                    <!-- Места будут генерироваться здесь -->
+            <div class="size-selection">
+                <h3>Выберите размер:</h3>
+                <div class="sizes-grid" id="sizesGrid">
+                    <!-- Размеры будут генерироваться здесь -->
                 </div>
             </div>
             
-            <div class="selected-seats">
-                <h3>Выбранные места: <span id="selectedSeatsCount">0</span></h3>
-                <div id="selectedSeatsList"></div>
-                <div class="total-price">
-                    Общая стоимость: <span id="totalPrice">0</span> руб.
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Товар:</span>
+                    <span id="selectedProductName">-</span>
                 </div>
-                <button class="buy-btn" onclick="confirmPurchase()">Купить билеты</button>
+                <div class="summary-item">
+                    <span>Размер:</span>
+                    <span id="selectedSize">Не выбран</span>
+                </div>
+                <div class="summary-item">
+                    <span>Цена:</span>
+                    <span id="selectedPrice">0</span> руб.
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCart()">🛒 Добавить в корзину</button>
+                <button class="buy-now-btn" onclick="buyNow()">💳 Купить сейчас</button>
             </div>
         </div>
 
-        <!-- Экран подтверждения -->
-        <div id="confirmationScreen" class="screen">
+        <!-- Экран корзины -->
+        <div id="cartScreen" class="screen">
             <header class="header">
-                <h1 class="title">✅ Билеты куплены!</h1>
+                <button class="back-btn" onclick="showScreen('detailScreen')">← Назад</button>
+                <h2 class="screen-title">🛒 Корзина</h2>
             </header>
             
-            <div class="confirmation-info">
-                <div class="ticket" id="ticketInfo">
-                    <!-- Информация о билетах -->
+            <div class="cart-items" id="cartItems">
+                <!-- Товары в корзине будут здесь -->
+                <div class="empty-cart" id="emptyCart">
+                    Корзина пуста
                 </div>
-                <button class="new-order-btn" onclick="startNewOrder()">Новый заказ</button>
+            </div>
+            
+            <div class="cart-total">
+                <div class="total-item">
+                    <span>Товаров:</span>
+                    <span id="cartCount">0</span>
+                </div>
+                <div class="total-item">
+                    <span>Общая сумма:</span>
+                    <span id="cartTotal">0</span> руб.
+                </div>
+                <button class="checkout-btn" onclick="checkout()">✅ Оформить заказ</button>
+                <button class="continue-btn" onclick="showScreen('categoryScreen')">🛍️ Продолжить покупки</button>
             </div>
         </div>
 
-        <!-- Чат с AI помощником -->
+        <!-- Экран оформления заказа -->
+        <div id="checkoutScreen" class="screen">
+            <header class="header">
+                <h1 class="title">✅ Заказ оформлен!</h1>
+            </header>
+            
+            <div class="order-info">
+                <div class="order-details" id="orderDetails">
+                    <!-- Информация о заказе -->
+                </div>
+                <div class="delivery-info">
+                    <h3>📦 Информация о доставке</h3>
+                    <p>Наш менеджер свяжется с вами в течение 15 минут для подтверждения заказа.</p>
+                    <p>Телефон: +7 (495) 123-45-67</p>
+                    <p>Адрес: г. Москва, ул. Тверская, д. 15</p>
+                    <a href="https://fashionstore.ru/delivery" target="_blank" class="info-link">Подробнее о доставке</a>
+                </div>
+                <button class="new-order-btn" onclick="startNewOrder()">🛍️ Новый заказ</button>
+            </div>
+        </div>
+
+        <!-- Экран информации о магазине -->
+        <div id="infoScreen" class="screen">
+            <header class="header">
+                <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
+                <h2 class="screen-title">🏪 О магазине</h2>
+            </header>
+            
+            <div class="store-info">
+                <div class="info-card">
+                    <h3>📍 Адрес</h3>
+                    <p>г. Москва, ул. Тверская, д. 15</p>
+                    <a href="https://yandex.ru/maps/?text=Москва, Тверская, 15" target="_blank" class="map-link">🗺️ Открыть карту</a>
+                </div>
+                
+                <div class="info-card">
+                    <h3>⏰ Время работы</h3>
+                    <p>Ежедневно 10:00 - 22:00</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>📞 Контакты</h3>
+                    <p>Телефон: +7 (495) 123-45-67</p>
+                    <p>Email: info@fashionstore.ru</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🚚 Доставка и оплата</h3>
+                    <a href="https://fashionstore.ru/delivery" target="_blank" class="info-link">📦 Условия доставки</a>
+                    <a href="https://fashionstore.ru/returns" target="_blank" class="info-link">↩️ Условия возврата</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Чат с AI консультантом -->
         <div class="chat-section">
-            <h3 class="chat-title">AI Помощник по выбору фильма</h3>
+            <h3 class="chat-title">💁 AI Консультант по стилю</h3>
             <div class="chat-container">
                 <div id="chatMessages" class="chat-messages">
                     <div class="message bot-message">
-                        Привет! Я помогу вам выбрать фильм. Спросите меня о фильмах, жанрах или попросите рекомендации!
+                        Привет! Я помогу вам выбрать одежду. Спросите меня о стилях, размерах, материалах или попросите рекомендации!
                     </div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Спросите о фильмах...">
+                    <input type="text" id="userInput" placeholder="Спросите о стиле, размере...">
                     <button onclick="sendMessage()">Отправить</button>
                 </div>
             </div>
