@@ -11,8 +11,16 @@
         <!-- Экран выбора категории -->
         <div id="categoryScreen" class="screen active">
             <header class="header">
-                <h1 class="title">🛍️ FashionStore</h1>
-                <p class="subtitle">Выберите категорию одежды</p>
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1 class="title">🛍️ FashionStore</h1>
+                        <p class="subtitle">Выберите категорию одежды</p>
+                    </div>
+                    <button class="cart-icon" onclick="showScreen('cartScreen')">
+                        🛒
+                        <span class="cart-badge">0</span>
+                    </button>
+                </div>
             </header>
             
             <div class="categories-grid">
@@ -46,8 +54,14 @@
         <!-- Экран выбора товара -->
         <div id="productScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
-                <h2 class="screen-title" id="productScreenTitle">Выбор товара</h2>
+                <div class="header-content">
+                    <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
+                    <h2 class="screen-title" id="productScreenTitle">Выбор товара</h2>
+                    <button class="cart-icon" onclick="showScreen('cartScreen')">
+                        🛒
+                        <span class="cart-badge">0</span>
+                    </button>
+                </div>
             </header>
             
             <div class="products-list" id="productsList">
@@ -58,8 +72,14 @@
         <!-- Экран деталей товара -->
         <div id="detailScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('productScreen')">← Назад</button>
-                <h2 class="screen-title">Детали товара</h2>
+                <div class="header-content">
+                    <button class="back-btn" onclick="showScreen('productScreen')">← Назад</button>
+                    <h2 class="screen-title">Детали товара</h2>
+                    <button class="cart-icon" onclick="showScreen('cartScreen')">
+                        🛒
+                        <span class="cart-badge">0</span>
+                    </button>
+                </div>
             </header>
             
             <div class="product-detail" id="productDetail">
@@ -94,14 +114,18 @@
         <!-- Экран корзины -->
         <div id="cartScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('detailScreen')">← Назад</button>
-                <h2 class="screen-title">🛒 Корзина</h2>
+                <div class="header-content">
+                    <button class="back-btn" onclick="showScreen('detailScreen')">← Назад</button>
+                    <h2 class="screen-title">🛒 Корзина</h2>
+                    <div class="cart-icon-placeholder"></div>
+                </div>
             </header>
             
             <div class="cart-items" id="cartItems">
                 <!-- Товары в корзине будут здесь -->
                 <div class="empty-cart" id="emptyCart">
-                    Корзина пуста
+                    🛒 Корзина пуста
+                    <p>Добавьте товары из каталога</p>
                 </div>
             </div>
             
@@ -122,7 +146,9 @@
         <!-- Экран оформления заказа -->
         <div id="checkoutScreen" class="screen">
             <header class="header">
-                <h1 class="title">✅ Заказ оформлен!</h1>
+                <div class="header-content">
+                    <h1 class="title">✅ Заказ оформлен!</h1>
+                </div>
             </header>
             
             <div class="order-info">
@@ -143,8 +169,14 @@
         <!-- Экран информации о магазине -->
         <div id="infoScreen" class="screen">
             <header class="header">
-                <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
-                <h2 class="screen-title">🏪 О магазине</h2>
+                <div class="header-content">
+                    <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
+                    <h2 class="screen-title">🏪 О магазине</h2>
+                    <button class="cart-icon" onclick="showScreen('cartScreen')">
+                        🛒
+                        <span class="cart-badge">0</span>
+                    </button>
+                </div>
             </header>
             
             <div class="store-info">
