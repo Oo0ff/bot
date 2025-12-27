@@ -4,162 +4,172 @@ tg.expand();
 
 // Настройка основной кнопки
 tg.MainButton.textColor = "#FFFFFF";
-tg.MainButton.color = "#2c3e50";
+tg.MainButton.color = "#1a1a1a";
 
-// Данные о товарах
+// Данные о товарах (премиум коллекция)
 const PRODUCTS_DATA = {
     mens: [
         {
             id: 1,
-            title: "Классический костюм",
-            description: "Шерстяной костюм для офиса. Итальянская ткань.",
-            price: 12500,
-            sizes: ["S", "M", "L", "XL"],
+            title: "Костюм Tom Ford",
+            description: "Шерстяной костюм ручной работы. Итальянская ткань Super 150s.",
+            price: 85000,
+            sizes: ["48", "50", "52", "54", "56"],
             season: "Всесезонный",
-            category: "Деловая одежда",
-            imageUrl: "https://images.unsplash.com/photo-1594938350607-1a53b5d16a3b?w=400",
-            colors: ["Черный", "Серый", "Синий"],
+            category: "Коллекция VIP",
+            imageUrl: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Черный", "Темно-синий", "Шампань"],
             inStock: true,
-            rating: 4.8
+            rating: 4.9,
+            material: "Шерсть 90%, Кашемир 10%"
         },
         {
             id: 2,
-            title: "Джинсы Slim Fit",
-            description: "Узкие джинсы премиум-качества",
-            price: 4500,
-            sizes: ["28", "30", "32", "34", "36"],
+            title: "Джинсы Brunello Cucinelli",
+            description: "Джинсы из японского денима с ручной отделкой",
+            price: 45000,
+            sizes: ["48", "50", "52", "54"],
             season: "Демисезон",
-            category: "Повседневная одежда",
-            imageUrl: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400",
-            colors: ["Синий", "Черный"],
+            category: "Деним коллекция",
+            imageUrl: "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Индиго", "Черный"],
             inStock: true,
-            rating: 4.6
+            rating: 4.8,
+            material: "Японский деним"
         }
     ],
     womens: [
         {
             id: 3,
-            title: "Платье коктейльное",
-            description: "Элегантное вечернее платье",
-            price: 8900,
-            sizes: ["XS", "S", "M", "L"],
+            title: "Платье Chanel",
+            description: "Вечернее платье из французского кружева",
+            price: 120000,
+            sizes: ["FR36", "FR38", "FR40", "FR42"],
             season: "Вечерняя коллекция",
-            category: "Вечерняя одежда",
-            imageUrl: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
-            colors: ["Красный", "Черный", "Белый"],
+            category: "Haute Couture",
+            imageUrl: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Черный", "Белый", "Бордовый"],
             inStock: true,
-            rating: 4.9
+            rating: 5.0,
+            material: "Французское кружево, шелк"
         },
         {
             id: 4,
-            title: "Трикотажный свитер",
-            description: "Мягкий свитер из кашемира",
-            price: 6200,
-            sizes: ["S", "M", "L"],
+            title: "Кашемировый свитер Loro Piana",
+            description: "Свитер из королевского кашемира",
+            price: 68000,
+            sizes: ["XS", "S", "M", "L"],
             season: "Зима",
-            category: "Верхняя одежда",
-            imageUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400",
-            colors: ["Бежевый", "Серый", "Бордовый"],
+            category: "Cashmere Collection",
+            imageUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Кремовый", "Серый меланж", "Каштан"],
             inStock: true,
-            rating: 4.7
+            rating: 4.9,
+            material: "Королевский кашемир"
         }
     ],
     winter: [
         {
             id: 5,
-            title: "Пуховик зимний",
-            description: "Теплая зимняя куртка с натуральным пухом",
-            price: 14500,
-            sizes: ["S", "M", "L", "XL", "XXL"],
+            title: "Пальто Moncler",
+            description: "Пальто из гагачьего пуха с отделкой из енота",
+            price: 195000,
+            sizes: ["48", "50", "52", "54", "56"],
             season: "Зима",
-            category: "Верхняя одежда",
-            imageUrl: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400",
-            colors: ["Черный", "Синий", "Красный"],
+            category: "Горная коллекция",
+            imageUrl: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Черный", "Какао", "Графит"],
             inStock: true,
-            rating: 4.8
+            rating: 4.9,
+            material: "Гагачий пух, енот"
         },
         {
             id: 6,
-            title: "Термобелье набор",
-            description: "Комплект термобелья для активного отдыха",
-            price: 3200,
+            title: "Термобелье Icebreaker",
+            description: "Набор из мериносовой шерсти для экстремальных температур",
+            price: 32000,
             sizes: ["S", "M", "L", "XL"],
             season: "Зима",
-            category: "Спортивная одежда",
-            imageUrl: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-            colors: ["Черный", "Серый"],
+            category: "Performance",
+            imageUrl: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Черный", "Графит"],
             inStock: true,
-            rating: 4.5
+            rating: 4.7,
+            material: "Мериносовая шерсть 100%"
         }
     ],
     summer: [
         {
             id: 7,
-            title: "Футболка хлопковая",
-            description: "Дышащая футболка из 100% хлопка",
-            price: 1900,
+            title: "Поло Ralph Lauren",
+            description: "Поло из египетского хлопка Pima",
+            price: 12500,
             sizes: ["XS", "S", "M", "L", "XL"],
             season: "Лето",
-            category: "Повседневная одежда",
-            imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",
-            colors: ["Белый", "Черный", "Синий", "Зеленый"],
+            category: "Polo Collection",
+            imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Белый", "Черный", "Темно-синий", "Бордовый"],
             inStock: true,
-            rating: 4.4
+            rating: 4.8,
+            material: "Египетский хлопок Pima"
         },
         {
             id: 8,
-            title: "Шорты льняные",
-            description: "Легкие шорты для жаркой погоды",
-            price: 2800,
-            sizes: ["S", "M", "L", "XL"],
+            title: "Льняные брюки Ermenegildo Zegna",
+            description: "Брюки из итальянского льна с технологией crease-resistant",
+            price: 38000,
+            sizes: ["48", "50", "52", "54"],
             season: "Лето",
-            category: "Повседневная одежда",
-            imageUrl: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400",
-            colors: ["Бежевый", "Белый", "Синий"],
+            category: "Льняная коллекция",
+            imageUrl: "https://images.unsplash.com/photo-1593030737346-58d656c5d41c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Натуральный", "Бежевый", "Белый"],
             inStock: true,
-            rating: 4.3
+            rating: 4.7,
+            material: "Итальянский лен"
         }
     ],
     accessories: [
         {
             id: 9,
-            title: "Кожаный ремень",
-            description: "Классический кожаный ремень",
-            price: 2400,
-            sizes: ["S", "M", "L"],
+            title: "Ремень Hermès",
+            description: "Кожаный ремень ручной работы с серебряной пряжкой",
+            price: 75000,
+            sizes: ["80", "85", "90", "95", "100"],
             season: "Всесезонный",
-            category: "Аксессуары",
-            imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400",
-            colors: ["Коричневый", "Черный"],
+            category: "Кожаные аксессуары",
+            imageUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Черный", "Коричневый", "Темно-синий"],
             inStock: true,
-            rating: 4.6
+            rating: 4.9,
+            material: "Кожа аллигатора"
         },
         {
             id: 10,
-            title: "Шерстяной шарф",
-            description: "Теплый шарф из натуральной шерсти",
-            price: 1800,
+            title: "Кашемировый шарф Brunello Cucinelli",
+            description: "Шарф из двойного кашемира",
+            price: 45000,
             sizes: ["Один размер"],
             season: "Зима",
-            category: "Аксессуары",
-            imageUrl: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=400",
-            colors: ["Серый", "Бордовый", "Синий"],
+            category: "Кашемир",
+            imageUrl: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600",
+            colors: ["Серый", "Кремовый", "Каштан"],
             inStock: true,
-            rating: 4.7
+            rating: 4.8,
+            material: "Двойной кашемир"
         }
     ]
 };
 
 // Информация о магазине
 const STORE_INFO = {
-    name: "FashionStore",
+    name: "AESTHETE",
     address: "г. Москва, ул. Тверская, д. 15",
     phone: "+7 (495) 123-45-67",
-    email: "info@fashionstore.ru",
-    hours: "Ежедневно 10:00 - 22:00",
+    email: "contact@aesthetestore.ru",
+    hours: "Ежедневно 11:00 - 21:00",
     mapUrl: "https://yandex.ru/maps/?text=Москва, Тверская, 15",
-    deliveryUrl: "https://fashionstore.ru/delivery",
-    returnUrl: "https://fashionstore.ru/returns"
+    deliveryUrl: "https://aesthetestore.ru/delivery",
+    returnUrl: "https://aesthetestore.ru/returns"
 };
 
 // Текущее состояние заказа
@@ -204,11 +214,11 @@ function showProducts(category) {
     
     // Установка заголовка
     const categoryNames = {
-        mens: '👔 Мужская одежда',
-        womens: '👗 Женская одежда',
-        winter: '❄️ Зимняя коллекция',
-        summer: '☀️ Летняя коллекция',
-        accessories: '🧣 Аксессуары'
+        mens: 'Мужская коллекция',
+        womens: 'Женская коллекция',
+        winter: 'Зимняя коллекция',
+        summer: 'Летняя коллекция',
+        accessories: 'Аксессуары'
     };
     
     screenTitle.textContent = categoryNames[category];
@@ -223,21 +233,27 @@ function showProducts(category) {
         productCard.className = 'product-card';
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x400?text=FashionStore'">
+                <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
+                <div class="product-badge">${product.category}</div>
             </div>
             <div class="product-info">
                 <div class="product-title">${product.title}</div>
                 <div class="product-description">${product.description}</div>
                 <div class="product-details">
-                    <span class="product-price">${product.price} руб.</span>
-                    <span class="product-rating">⭐ ${product.rating}</span>
+                    <span class="product-price">${formatPrice(product.price)} руб.</span>
+                    <span class="product-rating">${product.rating}</span>
                 </div>
                 <div class="product-sizes">Размеры: ${product.sizes.join(', ')}</div>
-                <button class="product-btn" onclick="selectProduct(${product.id})">Выбрать</button>
+                <button class="product-btn" onclick="selectProduct(${product.id})">Подробнее</button>
             </div>
         `;
         productsList.appendChild(productCard);
     });
+}
+
+// Форматирование цены с разделителями
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
 // Выбор товара
@@ -267,18 +283,21 @@ function showProductDetails(product) {
     // Обновление информации о товаре
     productDetail.innerHTML = `
         <div class="product-image-large">
-            <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/400x400?text=FashionStore'">
+            <img src="${product.imageUrl}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
+            <div class="product-badge-large">${product.category}</div>
         </div>
         <div class="product-info-large">
-            <h3>${product.title}</h3>
+            <div class="product-header">
+                <h3>${product.title}</h3>
+                <div class="product-price-large">${formatPrice(product.price)} руб.</div>
+            </div>
             <p class="product-description-large">${product.description}</p>
             <div class="product-meta">
-                <div class="meta-item"><strong>Цена:</strong> ${product.price} руб.</div>
+                <div class="meta-item"><strong>Материал:</strong> ${product.material}</div>
                 <div class="meta-item"><strong>Сезон:</strong> ${product.season}</div>
-                <div class="meta-item"><strong>Категория:</strong> ${product.category}</div>
                 <div class="meta-item"><strong>Цвета:</strong> ${product.colors.join(', ')}</div>
-                <div class="meta-item"><strong>Рейтинг:</strong> ⭐ ${product.rating}</div>
-                <div class="meta-item"><strong>Наличие:</strong> ${product.inStock ? '✅ В наличии' : '❌ Нет в наличии'}</div>
+                <div class="meta-item"><strong>Рейтинг:</strong> ${product.rating}</div>
+                <div class="meta-item"><strong>Наличие:</strong> ${product.inStock ? 'В наличии' : 'Под заказ'}</div>
             </div>
         </div>
     `;
@@ -305,7 +324,7 @@ function showProductDetails(product) {
     
     // Обновление информации о выборе
     document.getElementById('selectedProductName').textContent = product.title;
-    document.getElementById('selectedPrice').textContent = product.price;
+    document.getElementById('selectedPrice').textContent = formatPrice(product.price);
 }
 
 // Выбор размера
@@ -317,7 +336,7 @@ function selectSize(size) {
 // Добавить в корзину
 function addToCart() {
     if (!currentOrder.selectedSize) {
-        showNotification('Пожалуйста, выберите размер!', 'error');
+        showNotification('Пожалуйста, выберите размер', 'error');
         return;
     }
     
@@ -337,10 +356,10 @@ function addToCart() {
     
     if (existingItem) {
         existingItem.quantity += 1;
-        showNotification(`Товар "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) обновлен в корзине!`, 'success');
+        showNotification(`${currentOrder.product.title} (размер ${currentOrder.selectedSize}) обновлен`, 'success');
     } else {
         currentOrder.cart.push(cartItem);
-        showNotification(`Товар "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) добавлен в корзину!`, 'success');
+        showNotification(`${currentOrder.product.title} добавлен в корзину`, 'success');
     }
     
     updateCartDisplay();
@@ -357,7 +376,7 @@ function addToCart() {
 // Купить сейчас
 function buyNow() {
     if (!currentOrder.selectedSize) {
-        showNotification('Пожалуйста, выберите размер!', 'error');
+        showNotification('Пожалуйста, выберите размер', 'error');
         return;
     }
     
@@ -401,19 +420,32 @@ function updateCartDisplay() {
                 <img src="${item.image}" alt="${item.title}">
             </div>
             <div class="cart-item-info">
-                <div class="cart-item-title">${item.title}</div>
+                <div class="cart-item-header">
+                    <div class="cart-item-title">${item.title}</div>
+                    <div class="cart-item-price">${formatPrice(item.price)} руб.</div>
+                </div>
                 <div class="cart-item-details">
-                    <span>Размер: ${item.size}</span>
-                    <span>Кол-во: ${item.quantity}</span>
-                    <span>${item.price * item.quantity} руб.</span>
+                    <div class="detail-item">
+                        <span class="detail-label">Размер:</span>
+                        <span class="detail-value">${item.size}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Цена:</span>
+                        <span class="detail-value">${formatPrice(item.price)} руб.</span>
+                    </div>
                 </div>
                 <div class="cart-item-actions">
-                    <button class="quantity-btn minus" onclick="changeQuantity(${index}, -1)">-</button>
+                    <button class="quantity-btn minus" onclick="changeQuantity(${index}, -1)">−</button>
                     <span class="quantity-display">${item.quantity}</span>
                     <button class="quantity-btn plus" onclick="changeQuantity(${index}, 1)">+</button>
+                    <div class="item-total">${formatPrice(item.price * item.quantity)} руб.</div>
                 </div>
             </div>
-            <button class="remove-item-btn" onclick="removeFromCart(${index})">🗑️</button>
+            <button class="remove-item-btn" onclick="removeFromCart(${index})">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
         `;
         cartItems.appendChild(cartItem);
         
@@ -422,7 +454,7 @@ function updateCartDisplay() {
     });
     
     cartCount.textContent = itemCount;
-    cartTotal.textContent = total;
+    cartTotal.textContent = formatPrice(total);
 }
 
 // Изменение количества товара
@@ -438,7 +470,7 @@ function changeQuantity(index, delta) {
     item.quantity = newQuantity;
     updateCartDisplay();
     updateCartIcon();
-    showNotification(`Количество "${item.title}" изменено на ${newQuantity}`, 'info');
+    showNotification(`Количество изменено на ${newQuantity}`, 'info');
 }
 
 // Удалить из корзины
@@ -447,13 +479,13 @@ function removeFromCart(index) {
     currentOrder.cart.splice(index, 1);
     updateCartDisplay();
     updateCartIcon();
-    showNotification(`Товар "${item.title}" удален из корзины`, 'warning');
+    showNotification(`Товар удален`, 'warning');
 }
 
 // Оформить заказ
 function checkout() {
     if (currentOrder.cart.length === 0) {
-        showNotification('Корзина пуста!', 'error');
+        showNotification('Корзина пуста', 'error');
         return;
     }
     
@@ -467,12 +499,22 @@ function showOrderConfirmation() {
     let total = 0;
     let itemsCount = 0;
     
-    let itemsHtml = '<h3>🛍️ Ваш заказ:</h3>';
+    let itemsHtml = '<div class="confirmation-header">';
+    itemsHtml += '<h3>Заказ подтвержден</h3>';
+    itemsHtml += `<div class="order-number">№ ${generateOrderId()}</div>`;
+    itemsHtml += '</div>';
+    
     currentOrder.cart.forEach(item => {
         itemsHtml += `
             <div class="order-item">
-                <strong>${item.title}</strong> (размер: ${item.size})<br>
-                ${item.quantity} шт. × ${item.price} руб. = ${item.price * item.quantity} руб.
+                <div class="order-item-header">
+                    <strong>${item.title}</strong>
+                    <span>${formatPrice(item.price * item.quantity)} руб.</span>
+                </div>
+                <div class="order-item-details">
+                    <span>Размер: ${item.size}</span>
+                    <span>Количество: ${item.quantity}</span>
+                </div>
             </div>
         `;
         total += item.price * item.quantity;
@@ -480,8 +522,15 @@ function showOrderConfirmation() {
     });
     
     itemsHtml += `
-        <div class="order-total">
-            <strong>Итого:</strong> ${itemsCount} товаров на сумму ${total} руб.
+        <div class="order-summary-final">
+            <div class="summary-row">
+                <span>Товары (${itemsCount})</span>
+                <span>${formatPrice(total)} руб.</span>
+            </div>
+            <div class="summary-row total">
+                <span>Итого</span>
+                <span>${formatPrice(total)} руб.</span>
+            </div>
         </div>
     `;
     
@@ -582,7 +631,6 @@ function showNotification(message, type = 'info') {
     notification.innerHTML = `
         <div class="notification-content">
             <span class="notification-message">${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
         </div>
     `;
     
@@ -606,7 +654,7 @@ async function getDeepSeekResponse(message) {
         messages: [
             {
                 role: 'system',
-                content: `Ты консультант магазина одежды 'FashionStore'. Отвечай кратко и полезно. Помогай с выбором одежды, размеров, стилей. Информация о магазине: Адрес: ${STORE_INFO.address}, Телефон: ${STORE_INFO.phone}, Время работы: ${STORE_INFO.hours}. Доступные категории: мужская одежда, женская одежда, зимняя коллекция, летняя коллекция, аксессуары.`
+                content: `Ты консультант магазина одежды 'AESTHETE'. Отвечай кратко и полезно. Помогай с выбором одежды, размеров, стилей. Информация о магазине: Адрес: ${STORE_INFO.address}, Телефон: ${STORE_INFO.phone}, Время работы: ${STORE_INFO.hours}. Доступные категории: мужская коллекция, женская коллекция, зимняя коллекция, летняя коллекция, аксессуары.`
             },
             {
                 role: 'user',
@@ -624,7 +672,7 @@ async function getDeepSeekResponse(message) {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
                 'HTTP-Referer': 'https://oo0ff.github.io/bot/',
-                'X-Title': 'FashionStore Bot'
+                'X-Title': 'AESTHETE Bot'
             },
             body: JSON.stringify(requestData)
         });
@@ -648,7 +696,7 @@ async function sendMessage() {
     if (userInput.value.trim() === '') return;
     
     sendButton.disabled = true;
-    sendButton.textContent = 'Отправка...';
+    sendButton.textContent = '...';
     
     const userMessage = document.createElement('div');
     userMessage.className = 'message user-message';
@@ -668,7 +716,7 @@ async function sendMessage() {
     chatMessages.appendChild(botMessage);
     
     sendButton.disabled = false;
-    sendButton.textContent = 'Отправить';
+    sendButton.textContent = '→';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
