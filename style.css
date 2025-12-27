@@ -10,6 +10,7 @@ body {
     color: #333;
     min-height: 100vh;
     padding: 20px;
+    position: relative;
 }
 
 .container {
@@ -31,26 +32,21 @@ body {
     display: block;
 }
 
-/* Кнопка назад */
-.back-btn {
-    background: none;
-    border: none;
-    color: #3498db;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 10px;
-    margin-bottom: 15px;
-}
-
-.back-btn:hover {
-    color: #2980b9;
-}
-
 /* Шапка */
 .header {
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
-    padding: 25px 20px;
+    padding: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    flex: 1;
     text-align: center;
 }
 
@@ -70,6 +66,58 @@ body {
 .screen-title {
     font-size: 1.5em;
     font-weight: 600;
+    text-align: center;
+    flex: 1;
+}
+
+/* Кнопка назад */
+.back-btn {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    width: 60px;
+    text-align: left;
+}
+
+.back-btn:hover {
+    color: #2980b9;
+}
+
+/* Иконка корзины */
+.cart-icon {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8em;
+    cursor: pointer;
+    position: relative;
+    width: 60px;
+    text-align: right;
+    padding: 10px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7em;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cart-icon-placeholder {
+    width: 60px;
+    visibility: hidden;
 }
 
 /* Сетка категорий */
@@ -369,6 +417,12 @@ body {
     font-size: 1.2em;
 }
 
+.empty-cart p {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #95a5a6;
+}
+
 .cart-item {
     display: flex;
     align-items: center;
@@ -377,6 +431,7 @@ body {
     background: #f8f9fa;
     border-radius: 10px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .cart-item-image {
@@ -408,6 +463,45 @@ body {
     gap: 15px;
     color: #7f8c8d;
     font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn.minus {
+    background: #e74c3c;
+}
+
+.quantity-btn.plus {
+    background: #27ae60;
+}
+
+.quantity-btn:hover {
+    opacity: 0.9;
+}
+
+.quantity-display {
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
 }
 
 .remove-item-btn {
@@ -421,6 +515,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    top: -10px;
+    right: -10px;
 }
 
 .remove-item-btn:hover {
@@ -721,6 +818,77 @@ body {
     transform: none;
 }
 
+/* Уведомления */
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 300px;
+    max-width: 90%;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.notification-message {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #7f8c8d;
+    padding: 0 5px;
+}
+
+.notification-success {
+    border-left: 4px solid #27ae60;
+    background: #d4edda;
+    color: #155724;
+}
+
+.notification-error {
+    border-left: 4px solid #e74c3c;
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.notification-info {
+    border-left: 4px solid #3498db;
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.notification-warning {
+    border-left: 4px solid #f39c12;
+    background: #fff3cd;
+    color: #856404;
+}
+
 /* Анимации */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -759,5 +927,9 @@ body {
     
     .chat-messages {
         height: 150px;
+    }
+    
+    .notification {
+        min-width: 250px;
     }
 }
