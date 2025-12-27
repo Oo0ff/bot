@@ -1,17 +1,21 @@
 // Инициализация Telegram Web App
 let tg = window.Telegram.WebApp;
-tg.expand();
+if (tg && tg.initData) {
+    tg.expand();
+}
 
 // Настройка основной кнопки
-tg.MainButton.textColor = "#FFFFFF";
-tg.MainButton.color = "#1a1a1a";
+if (tg && tg.MainButton) {
+    tg.MainButton.textColor = "#FFFFFF";
+    tg.MainButton.color = "#1a1a1a";
+}
 
-// Данные о товарах (премиум коллекция)
+// Данные о товарах (премиум коллекция) - без брендов
 const PRODUCTS_DATA = {
     mens: [
         {
             id: 1,
-            title: "Костюм Tom Ford",
+            title: "Костюм шерстяной",
             description: "Шерстяной костюм ручной работы. Итальянская ткань Super 150s.",
             price: 85000,
             sizes: ["48", "50", "52", "54", "56"],
@@ -25,7 +29,7 @@ const PRODUCTS_DATA = {
         },
         {
             id: 2,
-            title: "Джинсы Brunello Cucinelli",
+            title: "Джинсы премиальные",
             description: "Джинсы из японского денима с ручной отделкой",
             price: 45000,
             sizes: ["48", "50", "52", "54"],
@@ -41,7 +45,7 @@ const PRODUCTS_DATA = {
     womens: [
         {
             id: 3,
-            title: "Платье Chanel",
+            title: "Платье вечернее",
             description: "Вечернее платье из французского кружева",
             price: 120000,
             sizes: ["FR36", "FR38", "FR40", "FR42"],
@@ -55,7 +59,7 @@ const PRODUCTS_DATA = {
         },
         {
             id: 4,
-            title: "Кашемировый свитер Loro Piana",
+            title: "Кашемировый свитер",
             description: "Свитер из королевского кашемира",
             price: 68000,
             sizes: ["XS", "S", "M", "L"],
@@ -71,8 +75,8 @@ const PRODUCTS_DATA = {
     winter: [
         {
             id: 5,
-            title: "Пальто Moncler",
-            description: "Пальто из гагачьего пуха с отделкой из енота",
+            title: "Пальто зимнее",
+            description: "Пальто из гагачьего пуха с отделкой из натурального меха",
             price: 195000,
             sizes: ["48", "50", "52", "54", "56"],
             season: "Зима",
@@ -81,11 +85,11 @@ const PRODUCTS_DATA = {
             colors: ["Черный", "Какао", "Графит"],
             inStock: true,
             rating: 4.9,
-            material: "Гагачий пух, енот"
+            material: "Гагачий пух, натуральный мех"
         },
         {
             id: 6,
-            title: "Термобелье Icebreaker",
+            title: "Термобелье",
             description: "Набор из мериносовой шерсти для экстремальных температур",
             price: 32000,
             sizes: ["S", "M", "L", "XL"],
@@ -101,7 +105,7 @@ const PRODUCTS_DATA = {
     summer: [
         {
             id: 7,
-            title: "Поло Ralph Lauren",
+            title: "Поло хлопковое",
             description: "Поло из египетского хлопка Pima",
             price: 12500,
             sizes: ["XS", "S", "M", "L", "XL"],
@@ -115,8 +119,8 @@ const PRODUCTS_DATA = {
         },
         {
             id: 8,
-            title: "Льняные брюки Ermenegildo Zegna",
-            description: "Брюки из итальянского льна с технологией crease-resistant",
+            title: "Брюки льняные",
+            description: "Брюки из итальянского льна с технологией устойчивости к сминанию",
             price: 38000,
             sizes: ["48", "50", "52", "54"],
             season: "Лето",
@@ -131,7 +135,7 @@ const PRODUCTS_DATA = {
     accessories: [
         {
             id: 9,
-            title: "Ремень Hermès",
+            title: "Ремень кожаный",
             description: "Кожаный ремень ручной работы с серебряной пряжкой",
             price: 75000,
             sizes: ["80", "85", "90", "95", "100"],
@@ -141,11 +145,11 @@ const PRODUCTS_DATA = {
             colors: ["Черный", "Коричневый", "Темно-синий"],
             inStock: true,
             rating: 4.9,
-            material: "Кожа аллигатора"
+            material: "Натуральная кожа"
         },
         {
             id: 10,
-            title: "Кашемировый шарф Brunello Cucinelli",
+            title: "Шарф кашемировый",
             description: "Шарф из двойного кашемира",
             price: 45000,
             sizes: ["Один размер"],
@@ -181,21 +185,47 @@ let currentOrder = {
     totalPrice: 0
 };
 
+// Состояние чата
+let isChatOpen = false;
+
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
     initializeCategoryButtons();
-    document.getElementById('userInput').focus();
     updateCartDisplay();
     updateCartIcon();
+    
+    // Инициализация чата
+    document.getElementById('chatToggle').addEventListener('click', toggleChat);
+    document.getElementById('closeChat').addEventListener('click', toggleChat);
+    
+    // Инициализация отправки сообщения
+    document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    // Проверка, если открыто на ПК (без Telegram WebApp)
+    if (!window.Telegram || !window.Telegram.WebApp) {
+        console.log("Приложение открыто в браузере, демо-режим активирован");
+        showNotification("Демо-режим активирован. Запустите в Telegram для полного функционала.", "info");
+    }
 });
 
 // Инициализация кнопок категорий
 function initializeCategoryButtons() {
     const categoryButtons = document.querySelectorAll('.category-btn[data-category]');
     categoryButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const category = this.getAttribute('data-category');
-            selectCategory(category);
+            if (category === 'info') {
+                showStoreInfo();
+            } else {
+                selectCategory(category);
+            }
         });
     });
 }
@@ -241,7 +271,7 @@ function showProducts(category) {
                 <div class="product-description">${product.description}</div>
                 <div class="product-details">
                     <span class="product-price">${formatPrice(product.price)} руб.</span>
-                    <span class="product-rating">${product.rating}</span>
+                    <span class="product-rating">★ ${product.rating}</span>
                 </div>
                 <div class="product-sizes">Размеры: ${product.sizes.join(', ')}</div>
                 <button class="product-btn" onclick="selectProduct(${product.id})">Подробнее</button>
@@ -296,7 +326,7 @@ function showProductDetails(product) {
                 <div class="meta-item"><strong>Материал:</strong> ${product.material}</div>
                 <div class="meta-item"><strong>Сезон:</strong> ${product.season}</div>
                 <div class="meta-item"><strong>Цвета:</strong> ${product.colors.join(', ')}</div>
-                <div class="meta-item"><strong>Рейтинг:</strong> ${product.rating}</div>
+                <div class="meta-item"><strong>Рейтинг:</strong> ★ ${product.rating}</div>
                 <div class="meta-item"><strong>Наличие:</strong> ${product.inStock ? 'В наличии' : 'Под заказ'}</div>
             </div>
         </div>
@@ -324,7 +354,7 @@ function showProductDetails(product) {
     
     // Обновление информации о выборе
     document.getElementById('selectedProductName').textContent = product.title;
-    document.getElementById('selectedPrice').textContent = formatPrice(product.price);
+    document.getElementById('selectedPrice').textContent = formatPrice(product.price) + ' руб.';
 }
 
 // Выбор размера
@@ -550,6 +580,8 @@ function showOrderConfirmation() {
     // Отправляем данные в Telegram бота
     if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.sendData(JSON.stringify(orderData));
+    } else {
+        console.log("Заказ оформлен (демо-режим):", orderData);
     }
     
     // Очищаем корзину после оформления
@@ -594,6 +626,11 @@ function showScreen(screenId) {
     
     // Обновить иконку корзины при смене экрана
     updateCartIcon();
+    
+    // Закрыть чат при смене экрана
+    if (isChatOpen) {
+        toggleChat();
+    }
 }
 
 // Генерация ID заказа
@@ -608,11 +645,13 @@ function updateCartIcon() {
     
     cartIcons.forEach(icon => {
         const badge = icon.querySelector('.cart-badge');
-        if (totalItems > 0) {
-            badge.textContent = totalItems;
-            badge.style.display = 'flex';
-        } else {
-            badge.style.display = 'none';
+        if (badge) {
+            if (totalItems > 0) {
+                badge.textContent = totalItems > 99 ? '99+' : totalItems;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
         }
     });
 }
@@ -691,12 +730,12 @@ async function getDeepSeekResponse(message) {
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const chatMessages = document.getElementById('chatMessages');
-    const sendButton = document.querySelector('.chat-input button');
+    const sendButton = document.getElementById('sendMessageBtn');
     
     if (userInput.value.trim() === '') return;
     
     sendButton.disabled = true;
-    sendButton.textContent = '...';
+    sendButton.innerHTML = '...';
     
     const userMessage = document.createElement('div');
     userMessage.className = 'message user-message';
@@ -716,7 +755,7 @@ async function sendMessage() {
     chatMessages.appendChild(botMessage);
     
     sendButton.disabled = false;
-    sendButton.textContent = '→';
+    sendButton.innerHTML = '→';
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
@@ -746,9 +785,26 @@ function removeTypingIndicator() {
     }
 }
 
-// Enter для отправки в чате
-document.getElementById('userInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        sendMessage();
+// Переключение чата
+function toggleChat() {
+    const chatWindow = document.getElementById('chatWindow');
+    const chatToggle = document.getElementById('chatToggle');
+    
+    isChatOpen = !isChatOpen;
+    
+    if (isChatOpen) {
+        chatWindow.style.display = 'flex';
+        chatToggle.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+            </svg>
+        `;
+    } else {
+        chatWindow.style.display = 'none';
+        chatToggle.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+        `;
     }
-});
+}
