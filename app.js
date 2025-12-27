@@ -188,33 +188,10 @@ let currentOrder = {
 // Состояние чата
 let isChatOpen = false;
 
-// Сохранить корзину в localStorage
-function saveCartToStorage() {
-    try {
-        localStorage.setItem('aesthete_cart', JSON.stringify(currentOrder.cart));
-    } catch (e) {
-        console.error("Ошибка сохранения корзины:", e);
-    }
-}
-
-// Восстановить корзину из localStorage
-function restoreCartFromStorage() {
-    try {
-        const savedCart = localStorage.getItem('aesthete_cart');
-        if (savedCart) {
-            currentOrder.cart = JSON.parse(savedCart);
-            updateCartIcon();
-        }
-    } catch (e) {
-        console.error("Ошибка восстановления корзины:", e);
-    }
-}
-
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("Инициализация приложения...");
-    
     initializeCategoryButtons();
+    updateCartDisplay();
     updateCartIcon();
     
     // Инициализация чата
@@ -234,9 +211,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Приложение открыто в браузере, демо-режим активирован");
         showNotification("Демо-режим активирован. Запустите в Telegram для полного функционала.", "info");
     }
-    
-    // Восстановление корзины из localStorage
-    restoreCartFromStorage();
 });
 
 // Инициализация кнопок категорий
@@ -302,9 +276,24 @@ function showProducts(category) {
                     <span class="product-rating">★ ${product.rating}</span>
                 </div>
                 <div class="product-sizes">Размеры: ${product.sizes.join(', ')}</div>
-                <button class="product-btn" onclick="selectProduct(${product.id})">Подробнее</button>
+                <button class="product-btn">Подробнее</button>
             </div>
         `;
+        
+        // Добавляем обработчик клика на карточку
+        const productBtn = productCard.querySelector('.product-btn');
+        productBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            selectProduct(product.id);
+        });
+        
+        // Также делаем кликабельной всю карточку
+        productCard.addEventListener('click', function(e) {
+            // Проверяем, что клик не по кнопке
+            if (!e.target.closest('.product-btn')) {
+                selectProduct(product.id);
+            }
+        });
         
         productsList.appendChild(productCard);
     });
@@ -331,7 +320,6 @@ function selectProduct(productId) {
     
     if (selectedProduct) {
         currentOrder.product = selectedProduct;
-        currentOrder.selectedSize = null; // Сбрасываем выбранный размер
         showProductDetails(selectedProduct);
         showScreen('detailScreen');
     } else {
@@ -376,7 +364,7 @@ function showProductDetails(product) {
         sizeButton.className = 'size-btn';
         sizeButton.textContent = size;
         sizeButton.type = 'button';
-        sizeButton.onclick = function() {
+        sizeButton.addEventListener('click', function() {
             selectSize(size);
             // Сброс выделения у всех кнопок
             document.querySelectorAll('.size-btn').forEach(btn => {
@@ -384,7 +372,7 @@ function showProductDetails(product) {
             });
             // Выделение текущей кнопки
             this.classList.add('selected');
-        };
+        });
         sizesGrid.appendChild(sizeButton);
     });
     
@@ -404,11 +392,6 @@ function selectSize(size) {
 function addToCart() {
     if (!currentOrder.selectedSize) {
         showNotification('Пожалуйста, выберите размер', 'error');
-        return;
-    }
-    
-    if (!currentOrder.product) {
-        showNotification('Товар не выбран', 'error');
         return;
     }
     
@@ -434,10 +417,6 @@ function addToCart() {
         showNotification(`${currentOrder.product.title} добавлен в корзину`, 'success');
     }
     
-    // Сохраняем в localStorage
-    saveCartToStorage();
-    
-    // Обновляем отображение
     updateCartDisplay();
     updateCartIcon();
     
@@ -460,22 +439,17 @@ function buyNow() {
     addToCart();
     
     // Перейти к корзине
-    showScreen('cartScreen');
+    setTimeout(() => {
+        showScreen('cartScreen');
+    }, 800);
 }
 
 // Обновление отображения корзины
 function updateCartDisplay() {
-    console.log("Обновление отображения корзины...", currentOrder.cart);
-    
     const cartItems = document.getElementById('cartItems');
     const emptyCart = document.getElementById('emptyCart');
     const cartCount = document.getElementById('cartCount');
     const cartTotal = document.getElementById('cartTotal');
-    
-    if (!cartItems || !emptyCart || !cartCount || !cartTotal) {
-        console.log("Элементы корзины не найдены на этом экране");
-        return;
-    }
     
     // Очистка корзины
     cartItems.innerHTML = '';
@@ -516,18 +490,39 @@ function updateCartDisplay() {
                     </div>
                 </div>
                 <div class="cart-item-actions">
-                    <button class="quantity-btn minus" onclick="changeQuantity(${index}, -1)">−</button>
+                    <button class="quantity-btn minus" type="button">−</button>
                     <span class="quantity-display">${item.quantity}</span>
-                    <button class="quantity-btn plus" onclick="changeQuantity(${index}, 1)">+</button>
+                    <button class="quantity-btn plus" type="button">+</button>
                     <div class="item-total">${formatPrice(item.price * item.quantity)} руб.</div>
                 </div>
             </div>
-            <button class="remove-item-btn" onclick="removeFromCart(${index})">
+            <button class="remove-item-btn" type="button">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </button>
         `;
+        
+        // Добавляем обработчики для кнопок количества
+        const minusBtn = cartItem.querySelector('.minus');
+        const plusBtn = cartItem.querySelector('.plus');
+        const removeBtn = cartItem.querySelector('.remove-item-btn');
+        
+        minusBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            changeQuantity(index, -1);
+        });
+        
+        plusBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            changeQuantity(index, 1);
+        });
+        
+        removeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            removeFromCart(index);
+        });
+        
         cartItems.appendChild(cartItem);
         
         total += item.price * item.quantity;
@@ -549,10 +544,6 @@ function changeQuantity(index, delta) {
     }
     
     item.quantity = newQuantity;
-    
-    // Сохраняем в localStorage
-    saveCartToStorage();
-    
     updateCartDisplay();
     updateCartIcon();
     showNotification(`Количество изменено на ${newQuantity}`, 'info');
@@ -562,10 +553,6 @@ function changeQuantity(index, delta) {
 function removeFromCart(index) {
     const item = currentOrder.cart[index];
     currentOrder.cart.splice(index, 1);
-    
-    // Сохраняем в localStorage
-    saveCartToStorage();
-    
     updateCartDisplay();
     updateCartIcon();
     showNotification(`Товар удален`, 'warning');
@@ -573,8 +560,6 @@ function removeFromCart(index) {
 
 // Оформить заказ
 function checkout() {
-    console.log("Оформление заказа, корзина:", currentOrder.cart);
-    
     if (currentOrder.cart.length === 0) {
         showNotification('Корзина пуста', 'error');
         return;
@@ -647,17 +632,11 @@ function showOrderConfirmation() {
     
     // Очищаем корзину после оформления
     currentOrder.cart = [];
-    
-    // Очищаем localStorage
-    localStorage.removeItem('aesthete_cart');
-    
     updateCartIcon();
 }
 
 // Начать новый заказ
 function startNewOrder() {
-    console.log("Начинаем новый заказ...");
-    
     // Сброс текущего заказа
     currentOrder = {
         category: null,
@@ -666,9 +645,6 @@ function startNewOrder() {
         cart: [],
         totalPrice: 0
     };
-    
-    // Очищаем localStorage
-    localStorage.removeItem('aesthete_cart');
     
     // Обновление отображения корзины
     updateCartDisplay();
@@ -685,8 +661,6 @@ function showStoreInfo() {
 
 // Показать определенный экран
 function showScreen(screenId) {
-    console.log("Показ экрана:", screenId);
-    
     // Скрыть все экраны
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => {
@@ -699,11 +673,6 @@ function showScreen(screenId) {
     // Обновить иконку корзины при смене экрана
     updateCartIcon();
     
-    // Обновить отображение корзины если мы на экране корзины
-    if (screenId === 'cartScreen') {
-        updateCartDisplay();
-    }
-    
     // Закрыть чат при смене экрана
     if (isChatOpen) {
         toggleChat();
@@ -715,7 +684,7 @@ function showScreen(screenId) {
 
 // Генерация ID заказа
 function generateOrderId() {
-    return 'AST-' + Math.floor(100000 + Math.random() * 900000);
+    return Math.floor(1000 + Math.random() * 9000);
 }
 
 // Обновить иконку корзины в хедере
