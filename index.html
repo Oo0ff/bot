@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>FashionStore - Магазин одежды</title>
+    <title>AESTHETE — Магазин одежды</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,11 +16,15 @@
             <header class="header">
                 <div class="header-content">
                     <div class="header-title">
-                        <h1 class="title">🛍️ FashionStore</h1>
-                        <p class="subtitle">Выберите категорию одежды</p>
+                        <h1 class="title">AESTHETE</h1>
+                        <p class="subtitle">Выберите коллекцию</p>
                     </div>
                     <button class="cart-icon" onclick="showScreen('cartScreen')">
-                        🛒
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <span class="cart-badge">0</span>
                     </button>
                 </div>
@@ -25,28 +32,73 @@
             
             <div class="categories-grid">
                 <div class="category-card">
-                    <div class="category-icon mens">👔</div>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20.38 3.46L16 2L4 6V18L8 20L20.38 15.54C21.86 14.97 23 13.57 23 12C23 10.43 21.86 9.03 20.38 8.46L16 7L4 11V19"/>
+                            <path d="M8 20V14"/>
+                            <path d="M16 2V7"/>
+                        </svg>
+                    </div>
                     <button class="category-btn" data-category="mens">Мужская</button>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon womens">👗</div>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                            <path d="M2 17L12 22L22 17"/>
+                            <path d="M2 12L12 17L22 12"/>
+                        </svg>
+                    </div>
                     <button class="category-btn" data-category="womens">Женская</button>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon winter">❄️</div>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 17V21"/>
+                            <path d="M17 21H7"/>
+                            <path d="M17 13V21"/>
+                            <path d="M7 13V21"/>
+                            <path d="M12 13V17"/>
+                            <path d="M3 13H21"/>
+                            <path d="M5 13L7 5H17L19 13"/>
+                        </svg>
+                    </div>
                     <button class="category-btn" data-category="winter">Зимняя</button>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon summer">☀️</div>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2V4"/>
+                            <path d="M12 20V22"/>
+                            <path d="M4 12H2"/>
+                            <path d="M22 12H20"/>
+                            <path d="M19.07 4.93L17.66 6.34"/>
+                            <path d="M6.34 17.66L4.93 19.07"/>
+                            <path d="M19.07 19.07L17.66 17.66"/>
+                            <path d="M6.34 6.34L4.93 4.93"/>
+                        </svg>
+                    </div>
                     <button class="category-btn" data-category="summer">Летняя</button>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon accessories">🧣</div>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20.24 12.24C21.3658 11.1142 21.9983 9.58722 21.9983 7.99504C21.9983 6.40285 21.3658 4.87588 20.24 3.75004C19.1142 2.62419 17.5872 1.9917 15.995 1.9917C14.4028 1.9917 12.8758 2.62419 11.75 3.75004L5 10.5V19H13.5L20.24 12.24Z"/>
+                            <path d="M16 8L2 22"/>
+                            <path d="M17.5 15H9"/>
+                        </svg>
+                    </div>
                     <button class="category-btn" data-category="accessories">Аксессуары</button>
                 </div>
                 <div class="category-card">
-                    <div class="category-icon info">🏪</div>
-                    <button class="category-btn" onclick="showStoreInfo()">О магазине</button>
+                    <div class="category-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"/>
+                        </svg>
+                    </div>
+                    <button class="category-btn" onclick="showStoreInfo()">Контакты</button>
                 </div>
             </div>
         </div>
@@ -55,10 +107,18 @@
         <div id="productScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
-                    <h2 class="screen-title" id="productScreenTitle">Выбор товара</h2>
+                    <button class="back-btn" onclick="showScreen('categoryScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                        </svg>
+                    </button>
+                    <h2 class="screen-title" id="productScreenTitle">Коллекция</h2>
                     <button class="cart-icon" onclick="showScreen('cartScreen')">
-                        🛒
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <span class="cart-badge">0</span>
                     </button>
                 </div>
@@ -73,10 +133,18 @@
         <div id="detailScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="showScreen('productScreen')">← Назад</button>
-                    <h2 class="screen-title">Детали товара</h2>
+                    <button class="back-btn" onclick="showScreen('productScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                        </svg>
+                    </button>
+                    <h2 class="screen-title">Детали</h2>
                     <button class="cart-icon" onclick="showScreen('cartScreen')">
-                        🛒
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <span class="cart-badge">0</span>
                     </button>
                 </div>
@@ -87,7 +155,7 @@
             </div>
             
             <div class="size-selection">
-                <h3>Выберите размер:</h3>
+                <div class="section-title">Выберите размер</div>
                 <div class="sizes-grid" id="sizesGrid">
                     <!-- Размеры будут генерироваться здесь -->
                 </div>
@@ -95,19 +163,26 @@
             
             <div class="order-summary">
                 <div class="summary-item">
-                    <span>Товар:</span>
-                    <span id="selectedProductName">-</span>
+                    <span class="summary-label">Товар</span>
+                    <span id="selectedProductName" class="summary-value">-</span>
                 </div>
                 <div class="summary-item">
-                    <span>Размер:</span>
-                    <span id="selectedSize">Не выбран</span>
+                    <span class="summary-label">Размер</span>
+                    <span id="selectedSize" class="summary-value">Не выбран</span>
                 </div>
                 <div class="summary-item">
-                    <span>Цена:</span>
-                    <span id="selectedPrice">0</span> руб.
+                    <span class="summary-label">Цена</span>
+                    <span id="selectedPrice" class="summary-value">0 руб.</span>
                 </div>
-                <button class="add-to-cart-btn" onclick="addToCart()">🛒 Добавить в корзину</button>
-                <button class="buy-now-btn" onclick="buyNow()">💳 Купить сейчас</button>
+                <button class="add-to-cart-btn" onclick="addToCart()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Добавить в корзину
+                </button>
+                <button class="buy-now-btn" onclick="buyNow()">Купить сейчас</button>
             </div>
         </div>
 
@@ -115,31 +190,51 @@
         <div id="cartScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="showScreen('detailScreen')">← Назад</button>
-                    <h2 class="screen-title">🛒 Корзина</h2>
+                    <button class="back-btn" onclick="showScreen('detailScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                        </svg>
+                    </button>
+                    <h2 class="screen-title">Корзина</h2>
                     <div class="cart-icon-placeholder"></div>
                 </div>
             </header>
             
-            <div class="cart-items" id="cartItems">
-                <!-- Товары в корзине будут здесь -->
-                <div class="empty-cart" id="emptyCart">
-                    🛒 Корзина пуста
-                    <p>Добавьте товары из каталога</p>
+            <div class="cart-container">
+                <div class="cart-items" id="cartItems">
+                    <!-- Товары в корзине будут здесь -->
+                    <div class="empty-cart" id="emptyCart">
+                        <div class="empty-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z"/>
+                                <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z"/>
+                                <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"/>
+                            </svg>
+                        </div>
+                        <div class="empty-title">Корзина пуста</div>
+                        <p>Добавьте товары из коллекции</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="cart-total">
-                <div class="total-item">
-                    <span>Товаров:</span>
-                    <span id="cartCount">0</span>
+                
+                <div class="cart-total">
+                    <div class="total-item">
+                        <span>Товары</span>
+                        <span id="cartCount">0</span>
+                    </div>
+                    <div class="total-item">
+                        <span>Сумма</span>
+                        <span id="cartTotal">0</span> руб.
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 6H7L5 3H1M1 3L3 13H19L21 6H7" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20C17 19.4477 17.4477 19 18 19C18.5523 19 19 19.4477 19 20Z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Оформить заказ
+                    </button>
+                    <button class="continue-btn" onclick="showScreen('categoryScreen')">Продолжить покупки</button>
                 </div>
-                <div class="total-item">
-                    <span>Общая сумма:</span>
-                    <span id="cartTotal">0</span> руб.
-                </div>
-                <button class="checkout-btn" onclick="checkout()">✅ Оформить заказ</button>
-                <button class="continue-btn" onclick="showScreen('categoryScreen')">🛍️ Продолжить покупки</button>
             </div>
         </div>
 
@@ -147,22 +242,43 @@
         <div id="checkoutScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <h1 class="title">✅ Заказ оформлен!</h1>
+                    <h1 class="title">Заказ принят</h1>
                 </div>
             </header>
             
             <div class="order-info">
+                <div class="confirmation-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 4L12 14.01L9 11.01" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
                 <div class="order-details" id="orderDetails">
                     <!-- Информация о заказе -->
                 </div>
                 <div class="delivery-info">
-                    <h3>📦 Информация о доставке</h3>
-                    <p>Наш менеджер свяжется с вами в течение 15 минут для подтверждения заказа.</p>
-                    <p>Телефон: +7 (495) 123-45-67</p>
-                    <p>Адрес: г. Москва, ул. Тверская, д. 15</p>
-                    <a href="https://fashionstore.ru/delivery" target="_blank" class="info-link">Подробнее о доставке</a>
+                    <div class="section-title">Информация о доставке</div>
+                    <div class="info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
+                        </svg>
+                        <span>Менеджер свяжется с вами в течение 15 минут</span>
+                    </div>
+                    <div class="info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
+                        </svg>
+                        <span>Телефон: +7 (495) 123-45-67</span>
+                    </div>
+                    <div class="info-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
+                        </svg>
+                        <span>г. Москва, ул. Тверская, д. 15</span>
+                    </div>
+                    <a href="https://aesthetestore.ru/delivery" target="_blank" class="info-link">Подробнее о доставке</a>
                 </div>
-                <button class="new-order-btn" onclick="startNewOrder()">🛍️ Новый заказ</button>
+                <button class="new-order-btn" onclick="startNewOrder()">Новый заказ</button>
             </div>
         </div>
 
@@ -170,10 +286,18 @@
         <div id="infoScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="showScreen('categoryScreen')">← Назад</button>
-                    <h2 class="screen-title">🏪 О магазине</h2>
+                    <button class="back-btn" onclick="showScreen('categoryScreen')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                        </svg>
+                    </button>
+                    <h2 class="screen-title">Контакты</h2>
                     <button class="cart-icon" onclick="showScreen('cartScreen')">
-                        🛒
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <span class="cart-badge">0</span>
                     </button>
                 </div>
@@ -181,42 +305,75 @@
             
             <div class="store-info">
                 <div class="info-card">
-                    <h3>📍 Адрес</h3>
+                    <div class="info-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"/>
+                        </svg>
+                    </div>
+                    <h3>Адрес</h3>
                     <p>г. Москва, ул. Тверская, д. 15</p>
-                    <a href="https://yandex.ru/maps/?text=Москва, Тверская, 15" target="_blank" class="map-link">🗺️ Открыть карту</a>
+                    <a href="https://yandex.ru/maps/?text=Москва, Тверская, 15" target="_blank" class="map-link">Посмотреть на карте</a>
                 </div>
                 
                 <div class="info-card">
-                    <h3>⏰ Время работы</h3>
-                    <p>Ежедневно 10:00 - 22:00</p>
+                    <div class="info-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V16.92C2 16.375 2.213 15.855 2.593 15.465L10.593 7.465C11.373 6.685 12.637 6.685 13.417 7.465L21.417 15.465C21.797 15.855 22 16.375 22 16.92Z"/>
+                            <path d="M15 21V15H9V21"/>
+                        </svg>
+                    </div>
+                    <h3>Время работы</h3>
+                    <p>Ежедневно 11:00 — 21:00</p>
                 </div>
                 
                 <div class="info-card">
-                    <h3>📞 Контакты</h3>
-                    <p>Телефон: +7 (495) 123-45-67</p>
-                    <p>Email: info@fashionstore.ru</p>
+                    <div class="info-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V16.92C2 16.375 2.213 15.855 2.593 15.465L10.593 7.465C11.373 6.685 12.637 6.685 13.417 7.465L21.417 15.465C21.797 15.855 22 16.375 22 16.92Z"/>
+                            <path d="M15 21V15H9V21"/>
+                        </svg>
+                    </div>
+                    <h3>Контакты</h3>
+                    <p>+7 (495) 123-45-67</p>
+                    <p>contact@aesthetestore.ru</p>
                 </div>
                 
                 <div class="info-card">
-                    <h3>🚚 Доставка и оплата</h3>
-                    <a href="https://fashionstore.ru/delivery" target="_blank" class="info-link">📦 Условия доставки</a>
-                    <a href="https://fashionstore.ru/returns" target="_blank" class="info-link">↩️ Условия возврата</a>
+                    <div class="info-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                            <path d="M2 17L12 22L22 17"/>
+                            <path d="M2 12L12 17L22 12"/>
+                        </svg>
+                    </div>
+                    <h3>Доставка и оплата</h3>
+                    <a href="https://aesthetestore.ru/delivery" target="_blank" class="info-link">Условия доставки</a>
+                    <a href="https://aesthetestore.ru/returns" target="_blank" class="info-link">Возврат</a>
                 </div>
             </div>
         </div>
 
         <!-- Чат с AI консультантом -->
         <div class="chat-section">
-            <h3 class="chat-title">💁 AI Консультант по стилю</h3>
+            <div class="chat-header">
+                <div class="chat-title">Консультант</div>
+                <div class="chat-subtitle">Помощь в выборе</div>
+            </div>
             <div class="chat-container">
                 <div id="chatMessages" class="chat-messages">
                     <div class="message bot-message">
-                        Привет! Я помогу вам выбрать одежду. Спросите меня о стилях, размерах, материалах или попросите рекомендации!
+                        Добро пожаловать. Чем могу помочь в выборе?
                     </div>
                 </div>
                 <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Спросите о стиле, размере...">
-                    <button onclick="sendMessage()">Отправить</button>
+                    <input type="text" id="userInput" placeholder="Задать вопрос...">
+                    <button onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
