@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCategoryButtons();
     document.getElementById('userInput').focus();
     updateCartDisplay();
+    updateCartIcon();
 });
 
 // Инициализация кнопок категорий
@@ -316,7 +317,7 @@ function selectSize(size) {
 // Добавить в корзину
 function addToCart() {
     if (!currentOrder.selectedSize) {
-        alert('Пожалуйста, выберите размер!');
+        showNotification('Пожалуйста, выберите размер!', 'error');
         return;
     }
     
@@ -336,12 +337,14 @@ function addToCart() {
     
     if (existingItem) {
         existingItem.quantity += 1;
+        showNotification(`Товар "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) обновлен в корзине!`, 'success');
     } else {
         currentOrder.cart.push(cartItem);
+        showNotification(`Товар "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) добавлен в корзину!`, 'success');
     }
     
     updateCartDisplay();
-    alert(`✅ "${currentOrder.product.title}" (размер ${currentOrder.selectedSize}) добавлен в корзину!`);
+    updateCartIcon();
     
     // Сброс выбора
     currentOrder.selectedSize = null;
@@ -354,15 +357,17 @@ function addToCart() {
 // Купить сейчас
 function buyNow() {
     if (!currentOrder.selectedSize) {
-        alert('Пожалуйста, выберите размер!');
+        showNotification('Пожалуйста, выберите размер!', 'error');
         return;
     }
     
     // Добавить товар в корзину
     addToCart();
     
-    // Перейти к оформлению
-    showScreen('cartScreen');
+    // Перейти к корзине
+    setTimeout(() => {
+        showScreen('cartScreen');
+    }, 800);
 }
 
 // Обновление отображения корзины
@@ -402,6 +407,11 @@ function updateCartDisplay() {
                     <span>Кол-во: ${item.quantity}</span>
                     <span>${item.price * item.quantity} руб.</span>
                 </div>
+                <div class="cart-item-actions">
+                    <button class="quantity-btn minus" onclick="changeQuantity(${index}, -1)">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn plus" onclick="changeQuantity(${index}, 1)">+</button>
+                </div>
             </div>
             <button class="remove-item-btn" onclick="removeFromCart(${index})">🗑️</button>
         `;
@@ -415,16 +425,35 @@ function updateCartDisplay() {
     cartTotal.textContent = total;
 }
 
+// Изменение количества товара
+function changeQuantity(index, delta) {
+    const item = currentOrder.cart[index];
+    const newQuantity = item.quantity + delta;
+    
+    if (newQuantity < 1) {
+        removeFromCart(index);
+        return;
+    }
+    
+    item.quantity = newQuantity;
+    updateCartDisplay();
+    updateCartIcon();
+    showNotification(`Количество "${item.title}" изменено на ${newQuantity}`, 'info');
+}
+
 // Удалить из корзины
 function removeFromCart(index) {
+    const item = currentOrder.cart[index];
     currentOrder.cart.splice(index, 1);
     updateCartDisplay();
+    updateCartIcon();
+    showNotification(`Товар "${item.title}" удален из корзины`, 'warning');
 }
 
 // Оформить заказ
 function checkout() {
     if (currentOrder.cart.length === 0) {
-        alert('Корзина пуста!');
+        showNotification('Корзина пуста!', 'error');
         return;
     }
     
@@ -473,6 +502,10 @@ function showOrderConfirmation() {
     if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.sendData(JSON.stringify(orderData));
     }
+    
+    // Очищаем корзину после оформления
+    currentOrder.cart = [];
+    updateCartIcon();
 }
 
 // Начать новый заказ
@@ -488,6 +521,7 @@ function startNewOrder() {
     
     // Обновление отображения корзины
     updateCartDisplay();
+    updateCartIcon();
     
     // Показать начальный экран
     showScreen('categoryScreen');
@@ -508,6 +542,9 @@ function showScreen(screenId) {
     
     // Показать нужный экран
     document.getElementById(screenId).classList.add('active');
+    
+    // Обновить иконку корзины при смене экрана
+    updateCartIcon();
 }
 
 // Генерация ID заказа
@@ -515,12 +552,51 @@ function generateOrderId() {
     return Math.floor(1000 + Math.random() * 9000);
 }
 
-// Генерация кода брони
-function generateBookingCode() {
-    return Math.random().toString(36).substr(2, 8).toUpperCase();
+// Обновить иконку корзины в хедере
+function updateCartIcon() {
+    const cartIcons = document.querySelectorAll('.cart-icon');
+    const totalItems = currentOrder.cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    cartIcons.forEach(icon => {
+        const badge = icon.querySelector('.cart-badge');
+        if (totalItems > 0) {
+            badge.textContent = totalItems;
+            badge.style.display = 'flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    });
 }
 
-// Функции для чата с AI (остаются без изменений)
+// Показать уведомление
+function showNotification(message, type = 'info') {
+    // Удаляем предыдущее уведомление
+    const oldNotification = document.querySelector('.notification');
+    if (oldNotification) {
+        oldNotification.remove();
+    }
+    
+    // Создаем новое уведомление
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Автоматическое удаление через 3 секунды
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+
+// Функции для чата с AI
 async function getDeepSeekResponse(message) {
     const apiKey = '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';
     const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
