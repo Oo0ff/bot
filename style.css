@@ -1416,3 +1416,72 @@ body {
         cursor: pointer;
     }
 }
+/* Улучшенные стили для кликабельных элементов */
+.product-card {
+    cursor: pointer;
+}
+
+.product-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+}
+
+/* Убедитесь, что все кнопки имеют правильный курсор */
+button {
+    cursor: pointer;
+}
+
+/* Улучшенные стили для кнопок на мобильных устройствах */
+@media (max-width: 768px) {
+    .product-btn,
+    .size-btn,
+    .add-to-cart-btn,
+    .buy-now-btn,
+    .checkout-btn,
+    .continue-btn,
+    .new-order-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .quantity-btn,
+    .remove-item-btn {
+        min-height: 32px;
+        min-width: 32px;
+    }
+}
+
+/* Улучшенные стили для активации кнопок на мобильных устройствах */
+button:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+}
+
+/* Стили для улучшения отзывчивости на мобильных устройствах */
+@media (hover: none) and (pointer: coarse) {
+    .category-card,
+    .product-card,
+    button {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Увеличиваем область нажатия для маленьких кнопок */
+    .quantity-btn,
+    .remove-item-btn,
+    .back-btn,
+    .cart-icon {
+        position: relative;
+    }
+    
+    .quantity-btn::after,
+    .remove-item-btn::after,
+    .back-btn::after,
+    .cart-icon::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
+}
