@@ -387,17 +387,5 @@
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="app.js"></script>
-    <script>
-        // Дополнительная функция для навигации из корзины
-        function goBackFromCart() {
-            if (currentOrder.product) {
-                showScreen('detailScreen');
-            } else if (currentOrder.category) {
-                showScreen('productScreen');
-            } else {
-                showScreen('categoryScreen');
-            }
-        }
-    </script>
 </body>
 </html>
