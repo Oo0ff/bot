@@ -227,7 +227,7 @@
                         <span>Сумма</span>
                         <span id="cartTotal">0</span> руб.
                     </div>
-                    <button class="checkout-btn" onclick="checkout()">
+                    <button class="checkout-btn" onclick="showCheckoutForm()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 6H7L5 3H1M1 3L3 13H19L21 6H7" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20Z" stroke-linecap="round" stroke-linejoin="round"/>
@@ -240,11 +240,11 @@
             </div>
         </div>
 
-                <!-- Экран оформления заказа (форма) -->
+        <!-- Экран оформления заказа -->
         <div id="checkoutFormScreen" class="screen">
             <header class="header">
                 <div class="header-content">
-                    <button class="back-btn" onclick="goBackFromCheckout()">
+                    <button class="back-btn" onclick="showScreen('cartScreen')">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
                         </svg>
@@ -255,120 +255,154 @@
             </header>
             
             <div class="checkout-form-container">
-                <div class="order-summary-section">
-                    <div class="section-title">Ваш заказ</div>
-                    <div class="order-items-preview" id="orderItemsPreview">
-                        <!-- Товары будут добавлены здесь -->
-                    </div>
-                    <div class="order-total-preview">
-                        <div class="total-row">
-                            <span>Итого:</span>
-                            <span id="checkoutTotal">0 руб.</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <form id="checkoutForm" class="checkout-form" onsubmit="processCheckout(event)">
-                    <div class="section-title">Контактная информация</div>
-                    
-                    <div class="form-group">
-                        <label for="fullName">ФИО *</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Иванов Иван Иванович" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Телефон *</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" placeholder="example@email.com" required>
-                    </div>
-                    
-                    <div class="section-title">Адрес доставки</div>
-                    
-                    <div class="form-group">
-                        <label for="city">Город *</label>
-                        <input type="text" id="city" name="city" placeholder="Москва" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="street">Улица *</label>
-                        <input type="text" id="street" name="street" placeholder="ул. Тверская" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group half">
-                            <label for="house">Дом *</label>
-                            <input type="text" id="house" name="house" placeholder="15" required>
-                        </div>
-                        <div class="form-group half">
-                            <label for="apartment">Квартира/Офис</label>
-                            <input type="text" id="apartment" name="apartment" placeholder="25">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="postalCode">Почтовый индекс</label>
-                        <input type="text" id="postalCode" name="postalCode" placeholder="123456">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deliveryComment">Комментарий к доставке</label>
-                        <textarea id="deliveryComment" name="deliveryComment" placeholder="Дополнительные пожелания по доставке" rows="2"></textarea>
-                    </div>
-                    
-                    <div class="section-title">Способ оплаты</div>
-                    
-                    <div class="payment-methods">
-                        <div class="payment-method">
-                            <input type="radio" id="cash" name="paymentMethod" value="cash" checked>
-                            <label for="cash">
-                                <div class="payment-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <path d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"/>
-                                        <path d="M3 10H21"/>
-                                        <path d="M7 15H7.01"/>
-                                        <path d="M11 15H13"/>
-                                    </svg>
-                                </div>
-                                <div class="payment-info">
-                                    <div class="payment-title">Наличные при получении</div>
-                                    <div class="payment-desc">Оплата курьеру наличными</div>
-                                </div>
-                            </label>
+                <form id="checkoutForm" class="checkout-form">
+                    <div class="form-section">
+                        <h3 class="section-title">Контактная информация</h3>
+                        
+                        <div class="form-group">
+                            <label for="fullName">ФИО *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Иванов Иван Иванович">
                         </div>
                         
-                        <div class="payment-method">
-                            <input type="radio" id="card" name="paymentMethod" value="card">
-                            <label for="card">
-                                <div class="payment-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <path d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"/>
-                                        <path d="M3 10H21"/>
-                                        <path d="M7 15H7.01"/>
-                                        <path d="M11 15H13"/>
-                                    </svg>
-                                </div>
-                                <div class="payment-info">
-                                    <div class="payment-title">Банковская карта</div>
-                                    <div class="payment-desc">Оплата онлайн картой</div>
-                                </div>
-                            </label>
+                        <div class="form-group">
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="ivanov@example.com">
                         </div>
                     </div>
                     
-                    <div class="terms-agreement">
-                        <input type="checkbox" id="terms" name="terms" required>
-                        <label for="terms">Я согласен с <a href="https://aesthetestore.ru/terms" target="_blank">правилами обработки данных</a> и <a href="https://aesthetestore.ru/delivery" target="_blank">условиями доставки</a></label>
+                    <div class="form-section">
+                        <h3 class="section-title">Адрес доставки</h3>
+                        
+                        <div class="form-group">
+                            <label for="city">Город *</label>
+                            <input type="text" id="city" name="city" required placeholder="Москва">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="street">Улица *</label>
+                            <input type="text" id="street" name="street" required placeholder="Тверская">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="house">Дом *</label>
+                                <input type="text" id="house" name="house" required placeholder="15">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="apartment">Квартира</label>
+                                <input type="text" id="apartment" name="apartment" placeholder="25">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="postalCode">Индекс</label>
+                                <input type="text" id="postalCode" name="postalCode" placeholder="123456">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deliveryType">Тип доставки *</label>
+                            <select id="deliveryType" name="deliveryType" required>
+                                <option value="">Выберите тип доставки</option>
+                                <option value="courier">Курьерская доставка (500 руб.)</option>
+                                <option value="pickup">Самовывоз (бесплатно)</option>
+                                <option value="post">Почта России (300 руб.)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">Способ оплаты</h3>
+                        
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <input type="radio" id="cardOnline" name="paymentMethod" value="card_online" required checked>
+                                <label for="cardOnline">
+                                    <div class="payment-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="payment-info">
+                                        <div class="payment-title">Картой онлайн</div>
+                                        <div class="payment-desc">Безопасная оплата картой</div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <input type="radio" id="cardOnDelivery" name="paymentMethod" value="card_delivery" required>
+                                <label for="cardOnDelivery">
+                                    <div class="payment-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="payment-info">
+                                        <div class="payment-title">Картой при получении</div>
+                                        <div class="payment-desc">Оплата курьеру</div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <input type="radio" id="cashOnDelivery" name="paymentMethod" value="cash_delivery" required>
+                                <label for="cashOnDelivery">
+                                    <div class="payment-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="payment-info">
+                                        <div class="payment-title">Наличными при получении</div>
+                                        <div class="payment-desc">Оплата курьеру</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">Комментарий к заказу</h3>
+                        
+                        <div class="form-group">
+                            <label for="comment">Дополнительная информация</label>
+                            <textarea id="comment" name="comment" rows="3" placeholder="Например, удобное время доставки или особенности подъезда"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary-checkout">
+                        <div class="summary-item-checkout">
+                            <span>Товары (<span id="checkoutItemsCount">0</span>)</span>
+                            <span id="checkoutItemsPrice">0</span> руб.
+                        </div>
+                        <div class="summary-item-checkout">
+                            <span>Доставка</span>
+                            <span id="deliveryPrice">0</span> руб.
+                        </div>
+                        <div class="summary-item-checkout total">
+                            <span>Итого к оплате</span>
+                            <span id="totalWithDelivery">0</span> руб.
+                        </div>
+                    </div>
+                    
+                    <div class="form-agreement">
+                        <input type="checkbox" id="agreement" name="agreement" required>
+                        <label for="agreement">Я согласен с условиями <a href="https://aesthetestore.ru/terms" target="_blank">Пользовательского соглашения</a> и <a href="https://aesthetestore.ru/privacy" target="_blank">Политикой конфиденциальности</a> *</label>
                     </div>
                     
                     <button type="submit" class="submit-order-btn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 6H7L5 3H1M1 3L3 13H19L21 6H7" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20Z" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M19 20C19 20.5523 18.5523 21 18 21C17.4477 21 17 20.5523 17 20C17 19.4477 17.4477 19 18 19C18.5523 19 19 19.4477 19 20Z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 4L12 14.01L9 11.01" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         Подтвердить заказ
                     </button>
@@ -376,7 +410,7 @@
             </div>
         </div>
 
-        <!-- Экран оформления заказа -->
+        <!-- Экран подтверждения заказа -->
         <div id="checkoutScreen" class="screen">
             <header class="header">
                 <div class="header-content">
@@ -394,11 +428,21 @@
                 <div class="order-details" id="orderDetails">
                     <!-- Информация о заказе -->
                 </div>
+                
+                <div class="customer-info-card">
+                    <div class="section-title">Информация о покупателе</div>
+                    <div class="info-grid" id="customerInfo">
+                        <!-- Информация о покупателе будет здесь -->
+                    </div>
+                </div>
+                
                 <div class="delivery-info">
                     <div class="section-title">Информация о доставке</div>
                     <div class="info-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                            <path d="M2 17L12 22L22 17"/>
+                            <path d="M2 12L12 17L22 12"/>
                         </svg>
                         <span>Менеджер свяжется с вами в течение 15 минут</span>
                     </div>
@@ -406,11 +450,12 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
                         </svg>
-                        <span>Телефон: +7 (495) 123-45-67</span>
+                        <span>Телефон поддержки: +7 (495) 123-45-67</span>
                     </div>
                     <div class="info-item">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16V4C22 2.9 21.1 2 20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16ZM11 12L8.25 9.25L7 10.5L11 14.5L17 8.5L15.75 7.25L11 12Z"/>
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"/>
                         </svg>
                         <span>г. Москва, ул. Тверская, д. 15</span>
                     </div>
