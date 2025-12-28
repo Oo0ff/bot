@@ -557,7 +557,232 @@ function removeFromCart(index) {
     updateCartIcon();
     showNotification(`Товар удален`, 'warning');
 }
+// После существующих функций в app.js добавляем:
 
+// Перейти к оформлению заказа
+function checkout() {
+    if (currentOrder.cart.length === 0) {
+        showNotification('Корзина пуста', 'error');
+        return;
+    }
+    
+    showCheckoutForm();
+    showScreen('checkoutFormScreen');
+}
+
+// Показать форму оформления заказа
+function showCheckoutForm() {
+    const orderItemsPreview = document.getElementById('orderItemsPreview');
+    const checkoutTotal = document.getElementById('checkoutTotal');
+    
+    // Очищаем предварительный просмотр
+    orderItemsPreview.innerHTML = '';
+    
+    let total = 0;
+    
+    // Добавляем товары в предварительный просмотр
+    currentOrder.cart.forEach((item, index) => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-item-preview';
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=600'">
+            <div class="order-item-preview-info">
+                <div class="order-item-preview-title">${item.title}</div>
+                <div class="order-item-preview-details">
+                    Размер: ${item.size} × ${item.quantity} шт.
+                </div>
+            </div>
+            <div class="order-item-preview-price">${formatPrice(item.price * item.quantity)} руб.</div>
+        `;
+        orderItemsPreview.appendChild(itemElement);
+        
+        total += item.price * item.quantity;
+    });
+    
+    checkoutTotal.textContent = formatPrice(total) + ' руб.';
+}
+
+// Обработка оформления заказа
+function processCheckout(event) {
+    event.preventDefault();
+    
+    // Собираем данные формы
+    const formData = new FormData(event.target);
+    const orderData = {
+        customer: {
+            fullName: formData.get('fullName'),
+            phone: formData.get('phone'),
+            email: formData.get('email'),
+            address: {
+                city: formData.get('city'),
+                street: formData.get('street'),
+                house: formData.get('house'),
+                apartment: formData.get('apartment') || '',
+                postalCode: formData.get('postalCode') || ''
+            },
+            deliveryComment: formData.get('deliveryComment') || '',
+            paymentMethod: formData.get('paymentMethod')
+        },
+        order: {
+            items: currentOrder.cart,
+            total: currentOrder.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+            orderId: generateOrderId(),
+            date: new Date().toISOString()
+        }
+    };
+    
+    // Проверяем согласие с условиями
+    if (!event.target.terms.checked) {
+        showNotification('Пожалуйста, согласитесь с условиями обработки данных', 'error');
+        return;
+    }
+    
+    // Показываем подтверждение заказа
+    showOrderConfirmation(orderData);
+    showScreen('checkoutScreen');
+    
+    // Отправляем данные в Telegram бота
+    if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.sendData(JSON.stringify({
+            action: 'order_created',
+            order_details: orderData
+        }));
+    } else {
+        console.log("Заказ оформлен (демо-режим):", orderData);
+        // В демо-режиме сохраняем в localStorage для проверки
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+    }
+    
+    // Очищаем корзину после оформления
+    currentOrder.cart = [];
+    updateCartDisplay();
+    updateCartIcon();
+}
+
+// Обновленная функция подтверждения заказа
+function showOrderConfirmation(orderData) {
+    const orderDetails = document.getElementById('orderDetails');
+    let total = 0;
+    let itemsCount = 0;
+    
+    let itemsHtml = '<div class="confirmation-header">';
+    itemsHtml += '<h3>Заказ подтвержден</h3>';
+    itemsHtml += `<div class="order-number">№ ${orderData.order.orderId}</div>`;
+    itemsHtml += '</div>';
+    
+    // Добавляем информацию о покупателе
+    itemsHtml += `
+        <div class="customer-info">
+            <div class="info-section">
+                <h4>Контактная информация</h4>
+                <div class="info-row">
+                    <strong>ФИО:</strong> ${orderData.customer.fullName}
+                </div>
+                <div class="info-row">
+                    <strong>Телефон:</strong> ${orderData.customer.phone}
+                </div>
+                <div class="info-row">
+                    <strong>Email:</strong> ${orderData.customer.email}
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h4>Адрес доставки</h4>
+                <div class="info-row">
+                    ${orderData.customer.address.city}, ${orderData.customer.address.street}, д. ${orderData.customer.address.house}
+                    ${orderData.customer.address.apartment ? `, кв. ${orderData.customer.address.apartment}` : ''}
+                    ${orderData.customer.address.postalCode ? `, ${orderData.customer.address.postalCode}` : ''}
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h4>Способ оплаты</h4>
+                <div class="info-row">
+                    ${orderData.customer.paymentMethod === 'cash' ? 'Наличные при получении' : 'Банковская карта'}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Добавляем товары
+    itemsHtml += '<div class="confirmation-items">';
+    orderData.order.items.forEach(item => {
+        itemsHtml += `
+            <div class="order-item">
+                <div class="order-item-header">
+                    <strong>${item.title}</strong>
+                    <span>${formatPrice(item.price * item.quantity)} руб.</span>
+                </div>
+                <div class="order-item-details">
+                    <span>Размер: ${item.size}</span>
+                    <span>Количество: ${item.quantity}</span>
+                </div>
+            </div>
+        `;
+        total += item.price * item.quantity;
+        itemsCount += item.quantity;
+    });
+    itemsHtml += '</div>';
+    
+    itemsHtml += `
+        <div class="order-summary-final">
+            <div class="summary-row">
+                <span>Товары (${itemsCount})</span>
+                <span>${formatPrice(total)} руб.</span>
+            </div>
+            <div class="summary-row total">
+                <span>Итого</span>
+                <span>${formatPrice(total)} руб.</span>
+            </div>
+        </div>
+    `;
+    
+    orderDetails.innerHTML = itemsHtml;
+}
+
+// Функция навигации из формы оформления
+function goBackFromCheckout() {
+    showScreen('cartScreen');
+}
+
+// Обновляем CSS для новой информации в подтверждении заказа
+// Добавляем в style.css:
+.customer-info {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.info-section {
+    margin-bottom: 16px;
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--color-black);
+}
+
+.info-row {
+    font-size: 13px;
+    color: var(--color-gray-700);
+    margin-bottom: 4px;
+}
+
+.info-row strong {
+    color: var(--color-gray-900);
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.confirmation-items {
+    margin-top: 20px;
+}
 // Оформить заказ
 function checkout() {
     if (currentOrder.cart.length === 0) {
