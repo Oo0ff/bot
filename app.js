@@ -926,11 +926,11 @@ function showNotification(message, type = 'info') {
 
 // Функции для чата с AI
 async function getDeepSeekResponse(message) {
-    const apiKey = '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';
+    const apiKey = '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';
     const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
     
     const requestData = {
-        model: 'deepseek/deepseek-r1-0528:free',
+        model: 'xiaomi/mimo-v2-flash:free',
         messages: [
             {
                 role: 'system',
