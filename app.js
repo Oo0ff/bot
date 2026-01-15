@@ -926,11 +926,11 @@ function showNotification(message, type = 'info') {
 
 // Функции для чата с AI
 async function getDeepSeekResponse(message) {
-    const apiKey = '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';
+    const apiKey = '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';
     const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
     
     const requestData = {
-        model: 'deepseek/deepseek-r1-0528-qwen3-8b:free',
+        model: 'deepseek/deepseek-r1-0528:free',
         messages: [
             {
                 role: 'system',
