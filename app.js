@@ -924,50 +924,38 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Функции для чата с AI
+// Функция для получения ответа от AI через ваш бот
 async function getDeepSeekResponse(message) {
-    const apiKey = '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';
-    const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-    
-    const requestData = {
-        model: 'xiaomi/mimo-v2-flash:free',
-        messages: [
-            {
-                role: 'system',
-                content: `Ты консультант магазина одежды 'AESTHETE'. Отвечай кратко и полезно. Помогай с выбором одежды, размеров, стилей. Информация о магазине: Адрес: ${STORE_INFO.address}, Телефон: ${STORE_INFO.phone}, Время работы: ${STORE_INFO.hours}. Доступные категории: мужская коллекция, женская коллекция, зимняя коллекция, летняя коллекция, аксессуары.`
-            },
-            {
-                role: 'user',
-                content: message
-            }
-        ],
-        temperature: 0.7,
-        max_tokens: 500
-    };
+    // 🔽 ВАЖНО: Замените этот URL на ваш актуальный ngrok URL
+    const YOUR_BOT_URL = 'https://accurately-sclerotomic-danyelle.ngrok-free.dev/api/chat';
+    // Если ngrok перезапускался, URL изменится - скопируйте новый из консоли ngrok
     
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(YOUR_BOT_URL, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
-                'HTTP-Referer': 'https://oo0ff.github.io/bot/',
-                'X-Title': 'AESTHETE Bot'
             },
-            body: JSON.stringify(requestData)
+            body: JSON.stringify({
+                message: message
+            })
         });
-        
+
+        const result = await response.json();
+
         if (response.ok) {
-            const data = await response.json();
-            return data.choices[0].message.content;
+            return result.response;
         } else {
-            return 'Извините, в данный момент не могу подключиться к AI. Попробуйте позже.';
+            console.error('Ошибка от сервера:', result.error);
+            return `Ошибка: ${result.error || 'неизвестная ошибка'}`;
         }
     } catch (error) {
-        return 'Ошибка соединения. Проверьте интернет и попробуйте еще раз.';
+        console.error('Сетевая ошибка:', error);
+        return 'Не удалось соединиться с сервером. Проверьте, запущен ли бот и туннель ngrok.';
     }
 }
 
+// Функция отправки сообщения в чате
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const chatMessages = document.getElementById('chatMessages');
@@ -1000,6 +988,7 @@ async function sendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// Показать индикатор набора текста
 function showTypingIndicator() {
     const chatMessages = document.getElementById('chatMessages');
     const typingIndicator = document.createElement('div');
@@ -1019,6 +1008,7 @@ function showTypingIndicator() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// Убрать индикатор набора текста
 function removeTypingIndicator() {
     const typingIndicator = document.getElementById('typingIndicator');
     if (typingIndicator) {
@@ -1040,7 +1030,6 @@ function toggleChat() {
                 <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
             </svg>
         `;
-        // Фокус на поле ввода
         setTimeout(() => {
             document.getElementById('userInput').focus();
         }, 100);
